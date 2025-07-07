@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 19:23:12 by amairia           #+#    #+#             */
+/*   Updated: 2025/07/07 19:24:05 by amairia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 #include <sys/wait.h>
 #include <fcntl.h>
@@ -62,22 +74,20 @@ static void	launch_command(t_command *cmd, char **envp, t_all *all)
 	exit(126);
 }
 
-void	child_process(t_command *cmd, char **envp, int in_fd, int out_fd, t_all *all)
+void	child_process(t_command *cmd, char **envp,
+		int in_fd, int out_fd, t_all *all)
 {
 	if (in_fd != STDIN_FILENO) //redirect to prev pipe
 	{
 		dup2(in_fd, STDIN_FILENO);
 		close(in_fd);
 	}
-
 	if (out_fd != STDOUT_FILENO) //redirect to next pipe
 	{
 		dup2(out_fd, STDOUT_FILENO);
 		close(out_fd);
 	}
-
 	if (handle_command_redirections(cmd) == -1) //redirect
 		exit(1);
-
 	launch_command(cmd, envp, all);
 }

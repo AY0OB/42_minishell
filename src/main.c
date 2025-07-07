@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 19:06:25 by amairia           #+#    #+#             */
+/*   Updated: 2025/07/07 19:43:30 by amairia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 static int	compare_line_set(const char *line, char *line_set, int i, int j)
@@ -59,7 +71,7 @@ static t_all	*set_struct(void)
 	all = malloc(sizeof(t_all));
 	if (!all)
 	{
-		ft_putstr_fd("Alloc error\n",STDOUT_FILENO);
+		ft_putstr_fd("Alloc error\n", STDOUT_FILENO);
 		return (NULL);
 	}
 	if (set_list(&lst) == -1)
@@ -67,32 +79,28 @@ static t_all	*set_struct(void)
 		free(all);
 		return (NULL);
 	}
-
 	all->lst = lst;
 	all->data.std_err = 0;
 	all->data.std_in = 0;
 	all->data.std_out = 1;
-
 	all->env_list = NULL;
 	return (all);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-    (void)argc;
-    (void)argv;
-
 	char		*line;
 	t_all		*all;
 	t_pars		**tokens;
 	t_command	*commands;
 
+	(void)argc;
+	(void)argv;
 	all = set_struct();
 	if (!all)
 		return (-1);
 	all->env_list = init_environment(envp); // init env
 	tokens = all->lst; // lisibilité, marre de se trimballer cette merde partout
-
 	while (1)
 	{
 		line = readline("minishell ");
@@ -113,5 +121,5 @@ int	main(int argc, char **argv, char **envp)
 		pars_lstclear(all->lst);
 	}
 	clear_all(all, line);
-	return(0);
+	return (0);
 }

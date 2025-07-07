@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   convert_type_to_str.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 19:35:37 by amairia           #+#    #+#             */
+/*   Updated: 2025/07/07 19:36:07 by amairia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 char	*convert_type_to_str(enum e_type type)
@@ -16,7 +28,7 @@ char	*convert_type_to_str(enum e_type type)
 			return ("APPEND");
 		case T_HEREDOC:
 			return ("HERE_DOC");
-		default:
+		default :
 			return ("INCONNU");
 	}
 }

@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   interpreter.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 19:39:52 by amairia           #+#    #+#             */
+/*   Updated: 2025/07/07 19:42:49 by amairia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 static t_command	*parse_single_command(t_pars **token_stream);
-
 
 t_command	*interpreter(t_pars *tokens)
 {
@@ -59,22 +70,19 @@ static t_command	*parse_single_command(t_pars **token_stream)
 	return (cmd);
 }
 
-int handle_redirection(t_command *cmd, t_pars **token_ptr)
+int	handle_redirection(t_command *cmd, t_pars **token_ptr)
 {
 	enum e_type	redir_type;
 	t_pars		*filename_token;
 
 	redir_type = (*token_ptr)->type;
-
 	*token_ptr = (*token_ptr)->next;
-
 	filename_token = *token_ptr;
 	if (filename_token == NULL || filename_token->type != T_WORD)
 	{
 		ft_putstr_fd("minishell: syntax error near unexpected token\n", 2);
 		return (-1);
 	}
-
 	// fill cmd with redir type
 	if (redir_type == T_REDIR_OUT)
 		cmd->redirect_out = ft_strdup(filename_token->content);
@@ -84,31 +92,29 @@ int handle_redirection(t_command *cmd, t_pars **token_ptr)
 		cmd->append_out = ft_strdup(filename_token->content);
 	else if (redir_type == T_HEREDOC)
 		cmd->heredoc_lim = ft_strdup(filename_token->content);
-
 	return (0);
+}
 
-};
-
-char **words_to_argv(t_list *word_list)
+char	**words_to_argv(t_list *word_list)
 {
 	int		count;
 	char	**argv;
 	int		i;
-	t_list 	*current_node;
+	t_list	*current_node;
 
 	count = ft_lstsize(word_list);
 	argv = ft_calloc(count + 1, sizeof(char *)); //+1 car null à la fin
 	if (argv == NULL)
-		return(NULL);
-
+		return (NULL);
 	i = 0;
 	current_node = word_list;
 	while (current_node)
 	{
-        ft_printf("words_to_argv: Ajout de '%s' à argv[%d]\n", (char *)current_node->content, i);
+		ft_printf("words_to_argv: Ajout de '%s' à argv[%d]\n",
+			(char *)current_node->content, i);
 		argv[i] = (char *)current_node->content;
 		i++;
 		current_node = current_node->next;
 	}
 	return (argv);
-};
+}

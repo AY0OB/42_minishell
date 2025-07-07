@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_env_bis.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 19:10:05 by amairia           #+#    #+#             */
+/*   Updated: 2025/07/07 19:58:21 by amairia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 static int	size_new_content(char *str, char *env_var, int i, int end_quote)
@@ -81,7 +93,6 @@ static void	incr_tab(t_pars *lst, char *n_content, int pos, int len_base)
 
 	len_c = ft_strlen(lst->content);
 	len_nc = ft_strlen(n_content);
-
 	if (len_c != 0 && len_c <= len_nc)
 		incr_tab_bis(lst, pos, len_nc - len_c, len_base);
 	else if (len_nc != 0 && len_nc <= len_c)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   environment.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 19:37:44 by amairia           #+#    #+#             */
+/*   Updated: 2025/07/07 19:38:01 by amairia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 // fonction pour libérer un maillon de notre environnement
@@ -6,7 +18,7 @@ void	free_env_var(void *env_var_ptr)
 	t_env_var	*var;
 
 	if (!env_var_ptr)
-		return;
+		return ;
 	var = (t_env_var *)env_var_ptr;
 	free(var->key);
 	free(var->value);

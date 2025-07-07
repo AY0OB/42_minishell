@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug_command_print.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 19:36:21 by amairia           #+#    #+#             */
+/*   Updated: 2025/07/07 19:37:29 by amairia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 void	print_argv(char **argv)
@@ -25,11 +37,10 @@ void	print_argv(char **argv)
 	ft_printf("]\n");
 }
 
-void print_command_list(t_command *cmd_list)
+void	print_command_list(t_command *cmd_list)
 {
-
 	t_command	*current;
-	int		i;
+	int			i;
 
 	current = cmd_list;
 	i = 0;
@@ -38,7 +49,7 @@ void print_command_list(t_command *cmd_list)
 	{
 		ft_printf("(Liste vide)\n");
 		ft_printf("----------------------------------------\n");
-		return;
+		return ;
 	}
 	while (current != NULL)
 	{
@@ -49,10 +60,8 @@ void print_command_list(t_command *cmd_list)
 		ft_printf("  - append_out : %s\n", current->append_out);
 		ft_printf("  - heredoc_lim : %s\n", current->heredoc_lim);
 		ft_printf("\n");
-
 		current = current->next;
 		i++;
 	}
 	ft_printf("----------------------------------------\n");
-
-};
+}

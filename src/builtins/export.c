@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 19:20:54 by amairia           #+#    #+#             */
+/*   Updated: 2025/07/07 19:21:11 by amairia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 // sépare "KEY=VALUE" en KEY et VALUE
@@ -36,7 +48,7 @@ int	builtin_export(char **argv, t_list **env_list_ptr)
 		{
 			// gérer erreur de format "export VAR"
 			i++;
-			continue;
+			continue ;
 		}
 		existing_node = find_env_var(*env_list_ptr, new_var->key);
 		if (existing_node) // maj de la var

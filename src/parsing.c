@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 19:09:29 by amairia           #+#    #+#             */
+/*   Updated: 2025/07/07 19:46:33 by amairia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 static int	feed_lst_token(t_pars **lst, int is_token, int *i)
@@ -11,7 +23,6 @@ static int	feed_lst_token(t_pars **lst, int is_token, int *i)
 		ft_printf("Alloc error\n");
 		return (-1);
 	}
-
 	if (is_token == 1 || is_token == 3)
 		content[0] = '>';
 	if (is_token == 2 || is_token == 4)
@@ -22,19 +33,16 @@ static int	feed_lst_token(t_pars **lst, int is_token, int *i)
 		content[1] = '<';
 	if (is_token == 5)
 		content[0] = '|';
-	
 	if (is_token == 1 || is_token == 2 || is_token == 5)
 		++*i;
 	if (is_token == 3 || is_token == 4)
 		*i = *i + 2;
-
 	new_node = pars_lstnew(content);
 	if (!new_node)
 	{
 		free(content);
 		return (-1);
 	}
-
 	pars_lstadd_back(lst, new_node);
 	feed_lst_type(pars_lstlast(*lst), is_token);
 	return (0);

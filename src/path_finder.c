@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path_finder.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 20:11:34 by amairia           #+#    #+#             */
+/*   Updated: 2025/07/07 20:12:15 by amairia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 static void	free_paths_array(char **array)
@@ -5,7 +17,7 @@ static void	free_paths_array(char **array)
 	int	i;
 
 	if (!array)
-		return;
+		return ;
 	i = 0;
 	while (array[i])
 	{
@@ -69,6 +81,5 @@ char	*get_command_path(char *cmd, char **envp)
 		else
 			return (NULL); // invalid
 	}
-
 	return (find_in_paths(cmd, envp));
 }
