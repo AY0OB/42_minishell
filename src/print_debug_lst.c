@@ -1,0 +1,29 @@
+#include "../include/minishell.h"
+
+
+void	print_debug_lst(t_pars *lst)
+{
+	t_pars	*current;
+	int		i;
+
+	current = lst;
+	i = 0;
+	ft_printf("--- [DEBUG] Liste des tokens parsés ---\n");
+	if (current == NULL)
+	{
+		ft_printf("(Liste vide)\n");
+		ft_printf("----------------------------------------\n");
+		return;
+	}
+	while (current != NULL)
+	{
+		ft_printf("Token #%d:\n", i);
+		ft_printf("  - Contenu : [%s]\n", current->content);
+		ft_printf("  - Type    : %s\n", convert_type_to_str(current->type));
+		ft_printf("\n");
+
+		current = current->next;
+		i++;
+	}
+	ft_printf("----------------------------------------\n");
+}
