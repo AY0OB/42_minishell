@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:14:41 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/07 19:22:35 by amairia          ###   ########.fr       */
+/*   Updated: 2025/07/14 21:39:32 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	builtin_unset(char **argv, t_list **env_list_ptr)
 				else // on supprime un élément au milieu ou à la fin
 					prev->next = current->next;
 				ft_lstdelone(current, free_env_var);
-				break ; // on a trouvé et supprimé, on passe à l'arg suivant
+				break ;// on a trouvé et supprimé, on passe à l'arg suivant
 			}
 			prev = current;
 			current = current->next;
