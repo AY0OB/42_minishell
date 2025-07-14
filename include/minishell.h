@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:05:12 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/14 19:40:33 by amairia          ###   ########.fr       */
+/*   Updated: 2025/07/14 21:37:08 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,26 +39,27 @@ enum e_type
 };
 */
 
-// changement logique du parser, on sépare lexer puis interprétation (command ou arg ou autre)
+// changement logique du parser, on sépare lexer puis interprétation
+// (command ou arg ou autre)
 enum e_type
 {
 	T_PIPE,			// '|'
 	T_REDIR_IN,		// '<'
-	T_REDIR_OUT,	// '>'
+	T_REDIR_OUT,		// '>'
 	T_APPEND,		// '>>'
 	T_HEREDOC,		// '<<'
 	T_WORD,			// générique
-	T_UNKNOWN		// au cas ou j'ai fait de la merde
+	T_UNKNOWN,		// au cas ou j'ai fait de la merde
 };
 
 typedef struct s_command
 {
-	char	**argv;
-	char	*redirect_in;
-	char	*redirect_out;
-	char	*append_out;
-	char	*heredoc_lim;
-	struct	s_command *next;
+	char				**argv;
+	char				*redirect_in;
+	char				*redirect_out;
+	char				*append_out;
+	char				*heredoc_lim;
+	struct s_command	*next;
 
 }				t_command;
 
@@ -128,7 +129,6 @@ typedef struct s_envbis
 
 //------------------------
 
-
 t_pars		*pars_lstnew(char *content);
 int			pars_lstadd_back(t_pars **lst, t_pars *new);
 void		pars_lstclear(t_all *all);
@@ -194,7 +194,8 @@ void		free_argv(char **argv);
 //executor
 void		executor(t_command *cmd_list, char **envp, t_all *all);
 int			handle_command_redirections(t_command *cmd);
-void		child_process(t_command *cmd, char **envp, int in_fd, int out_fd, t_all *all);
+void		child_process(t_command *cmd, char **envp, int in_fd,
+				int out_fd, t_all *all);
 
 //pathfinder
 char		*get_command_path(char *cmd, char **envp);
