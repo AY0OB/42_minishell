@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:06:25 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/07 19:43:30 by amairia          ###   ########.fr       */
+/*   Updated: 2025/07/14 18:25:47 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ static int	set_list(t_pars ***lst)
 
 static t_all	*set_struct(void)
 {
-	t_all		*all;
-	t_pars		**lst;
+	t_all	*all;
+	t_pars	**lst;
 
 	all = malloc(sizeof(t_all));
 	if (!all)
@@ -91,7 +91,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	t_all		*all;
-	t_pars		**tokens;
 	t_command	*commands;
 
 	(void)argc;
@@ -100,7 +99,6 @@ int	main(int argc, char **argv, char **envp)
 	if (!all)
 		return (-1);
 	all->env_list = init_environment(envp); // init env
-	tokens = all->lst; // lisibilité, marre de se trimballer cette merde partout
 	while (1)
 	{
 		line = readline("minishell ");
@@ -110,15 +108,25 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (first_pars(line) == 1 && check_quote(line) == 1)
 		{
-			parsing(line, tokens); //lexer, mots, redir
-			commands = interpreter(*tokens); // Parsing
+			if (parsing(line, all->lst) == -1) //lexer, mots, redir
+			{
+				ft_printf("Alloc error\n");
+				clear_all(all, line);
+				return (-1);
+			}
+			commands = interpreter(*(all->lst)); // Parsing
 			print_command_list(commands); // ça bug ?
 			executor(commands, envp, all); // on lance des trucs et des machins
 			// free_command_list(commands); // on nettoie
 		}
 		if (line)
 			free(line);
-		pars_lstclear(all->lst);
+		pars_lstclear(all);
+		if (set_list(&(all->lst)) == -1)
+		{
+			clear_all(all, line);
+			return (-1);
+		}
 	}
 	clear_all(all, line);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:05:12 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/07 19:05:15 by amairia          ###   ########.fr       */
+/*   Updated: 2025/07/14 16:03:47 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <limits.h>
 # include <stdio.h>
 # include <unistd.h>
+# include <fcntl.h>
 //--------------------------------
 
 /*
@@ -129,8 +130,8 @@ typedef struct s_envbis
 
 
 t_pars		*pars_lstnew(char *content);
-void		pars_lstadd_back(t_pars **lst, t_pars *new);
-void		pars_lstclear(t_pars **lst);
+int			pars_lstadd_back(t_pars **lst, t_pars *new);
+void		pars_lstclear(t_all *all);
 t_pars		*pars_lstlast(t_pars *lst);
 int			pars_lstsize(t_pars *lst);
 
@@ -155,6 +156,10 @@ void		add_env(t_pars *lst, char *env_var, t_env *info);
 
 t_envbis	set_envbis(void);
 int			end_env(char *str, t_envbis info, int end_quote);
+
+int			here_doc(t_pars **lst);
+void		check_env_hd(char **line);
+void		clear_doc_stop(t_pars *lst);
 
 void		skip_space(char *str, int *i);
 

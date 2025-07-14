@@ -1,30 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pars_lstadd_back.c                                 :+:      :+:    :+:   */
+/*   parsing_here_doc_clear.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 19:10:22 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/14 16:49:21 by amairia          ###   ########.fr       */
+/*   Created: 2025/07/11 14:05:48 by amairia           #+#    #+#             */
+/*   Updated: 2025/07/11 15:40:13 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	pars_lstadd_back(t_pars **lst, t_pars *new)
+void	clear_doc_stop(t_pars *lst)
 {
-	t_pars	*tmp;
+	t_pars	*to_clear;
+	t_pars	*new_next;
 
-	if (!lst || !new)
-		return (-1);
-	if (!*lst)
+	to_clear = NULL;
+	to_clear = lst->next;
+	new_next = NULL;
+	if (lst->next->next)
+		new_next = lst->next->next;
+	if (new_next)
 	{
-		*lst = new;
-		return (0);
+		lst->next = new_next;
+		new_next->prev = lst;
 	}
-	tmp = pars_lstlast(*lst);
-	tmp->next = new;
-	new->prev = tmp;
-	return (0);
+	else
+		lst->next = NULL;
+	if (to_clear->content)
+		free(to_clear->content);
+	if (to_clear->tab)
+		free(to_clear->tab);
+	if (to_clear->dtab)
+		free(to_clear->dtab);
+	free(to_clear);
 }

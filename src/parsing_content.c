@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:09:37 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/07 19:57:05 by amairia          ###   ########.fr       */
+/*   Updated: 2025/07/14 16:16:15 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ static char	*feed_content(char *line, int i, int j, int k)
 int	feed_lst_content(t_pars **lst, char *line, int *i)
 {
 	char	*content;
-	t_pars	*new_node;
 	int		j;
 	int		k;
 
@@ -103,18 +102,12 @@ int	feed_lst_content(t_pars **lst, char *line, int *i)
 		return (-1);
 	if (line[*i] == '\'' || line[*i] == '"')
 		++*i;
-	new_node = pars_lstnew(content);
-	if (!new_node)
-	{
-		free(content);
+	if (pars_lstadd_back(lst, pars_lstnew(content)) == -1)
 		return (-1);
-	}
-	pars_lstadd_back(lst, new_node);
-	feed_lst_type(new_node, -1);
-	if (set_int_quote(new_node, line, k, (*i) - 1) == -1)
+	feed_lst_type(pars_lstlast(*lst), -1);
+	if (set_int_quote(pars_lstlast(*lst), line, k, (*i) - 1) == -1)
 		return (-1);
-	if (set_int_dquote(new_node, line, k, (*i) - 1) == -1)
+	if (set_int_dquote(pars_lstlast(*lst), line, k, (*i) - 1) == -1)
 		return (-1);
-		
 	return (1);
 }
