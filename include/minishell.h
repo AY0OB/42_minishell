@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:05:12 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/14 16:03:47 by amairia          ###   ########.fr       */
+/*   Updated: 2025/07/14 19:40:33 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,8 @@ int			end_env(char *str, t_envbis info, int end_quote);
 int			here_doc(t_pars **lst);
 void		check_env_hd(char **line);
 void		clear_doc_stop(t_pars *lst);
+
+void		normalization(t_pars **lst);
 
 void		skip_space(char *str, int *i);
 

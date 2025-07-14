@@ -23,6 +23,7 @@ SRCS = 	src/main.c \
 		src/parsing_here_doc.c \
 		src/parsing_here_doc_env.c \
 		src/parsing_here_doc_clear.c \
+		src/parsing_normalization.c \
 		src/utils.c \
 		src/utils_bis.c \
 		src/pars_lstnew.c \
