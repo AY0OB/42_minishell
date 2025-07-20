@@ -6,22 +6,11 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 23:40:33 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/20 04:34:09 by amairia          ###   ########.fr       */
+/*   Updated: 2025/07/20 17:07:54 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-static void	env_list_to_array_bis(t_env_var *var,
-		char **array, char *tmp, int i)
-{
-	tmp = ft_strjoin(var->key, "=\"");
-	array[i] = ft_strjoin(tmp, var->value);
-	free(tmp);
-	tmp = array[i];
-	array[i] = ft_strjoin(tmp, "\"");
-	free(tmp);
-}
 
 static char	**env_list_to_array(t_list *env_list, int size)
 {
@@ -97,6 +86,16 @@ static int	display_sorted_env(t_list *env_list)
 	return (0);
 }
 
+static int	export_bis(t_env_var *new_var, int *i)
+{
+	if (!new_var)
+	{
+		++*i;
+		return (-1);
+	}
+	return (0);
+}
+
 int	builtin_export(char **argv, t_list **env_list_ptr)
 {
 	t_env_var	*new_var;
@@ -109,11 +108,13 @@ int	builtin_export(char **argv, t_list **env_list_ptr)
 	while (argv[i])
 	{
 		new_var = split_env_var(argv[i]);
-		if (!new_var)
+		if (export_bis(new_var, &i) == -1)
+			continue ;
+		/*if (!new_var)
 		{
 			i++;
 			continue ;
-		}
+		}*/
 		existing_node = find_env_var(*env_list_ptr, new_var->key);
 		if (existing_node)
 		{
