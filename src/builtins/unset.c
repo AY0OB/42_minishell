@@ -1,0 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/19 23:42:37 by amairia           #+#    #+#             */
+/*   Updated: 2025/07/20 04:16:00 by amairia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/minishell.h"
+
+int	builtin_unset(char **argv, t_list **env_list_ptr)
+{
+	t_list	*current;
+	t_list	*prev;
+	int		i;
+
+	i = 1;
+	while (argv[i])
+	{
+		current = *env_list_ptr;
+		prev = NULL;
+		while (current)
+		{
+			if (ft_strncmp(((t_env_var *)current->content)->key,
+					argv[i], ft_strlen(argv[i]) + 1) == 0)
+			{
+				if (prev == NULL)
+					*env_list_ptr = current->next;
+				else
+					prev->next = current->next;
+				ft_lstdelone(current, free_env_var);
+				break ;
+			}
+			prev = current;
+			current = current->next;
+		}
+		i++;
+	}
+	return (0);
+}
