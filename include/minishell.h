@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 03:57:51 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/20 16:59:05 by amairia          ###   ########.fr       */
+/*   Updated: 2025/07/27 05:32:03 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,8 +192,13 @@ void		free_argv(char **argv);
 //executor
 int			executor(t_command *cmd_list, char **envp, t_all *all);
 int			handle_command_redirections(t_command *cmd);
+int			execute_pipeline_check(t_command *cmd_list,
+				int pipefd[2], pid_t *last_pid);
+void		execute_pipeline_fd(t_command *cmd_list, int pipefd[2], int *in_fd);
 void		child_process(t_command *cmd, char **envp,
-				int in_fd, int out_fd, t_all *all);
+				int fd[2], t_all *all);
+//void		child_process(t_command *cmd, char **envp,
+//				int in_fd, int out_fd, t_all *all);
 
 //pathfinder
 char		*get_command_path(char *cmd, char **envp);
@@ -218,8 +223,8 @@ t_list		*find_env_var(t_list *env_list, const char *key);
 int			builtin_export(char **argv, t_list **env_list_ptr);
 void		print_sorted_env(char **array);
 t_env_var	*split_env_var(const char *arg);
-void	env_list_to_array_bis(t_env_var *var,
-		char **array, char *tmp, int i);
+void		env_list_to_array_bis(t_env_var *var,
+				char **array, char *tmp, int i);
 
 //unset
 int			builtin_unset(char **argv, t_list **env_list_ptr);

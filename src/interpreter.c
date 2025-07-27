@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 01:07:31 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/20 01:09:51 by amairia          ###   ########.fr       */
+/*   Updated: 2025/07/27 06:11:33 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,27 @@ t_command	*interpreter(t_pars *tokens)
 	return (cmd_list_head);
 }
 
+static void	*parse_single_command_bis(t_pars **token_stream, t_command **cmd,
+					char **word_copy, t_list **word_list)
+{
+	if ((*token_stream)->type >= T_REDIR_IN
+		&& (*token_stream)->type <= T_HEREDOC)
+	{
+		if (handle_redirection(*cmd, token_stream) != 0)
+			return (NULL);
+	}
+	else if ((*token_stream)->type == T_WORD)
+	{
+		*word_copy = ft_strdup((*token_stream)->content);
+		if ((*token_stream)->content)
+		{
+			ft_lstadd_back(word_list, ft_lstnew(*word_copy));
+		}
+	}
+	*token_stream = (*token_stream)->next;
+	return (*cmd);
+}
+
 static t_command	*parse_single_command(t_pars **token_stream)
 {
 	t_command	*cmd;
@@ -49,7 +70,10 @@ static t_command	*parse_single_command(t_pars **token_stream)
 	word_list = NULL;
 	while (*token_stream && (*token_stream)->type != T_PIPE)
 	{
-		if ((*token_stream)->type >= T_REDIR_IN
+		if (parse_single_command_bis(token_stream,
+				&cmd, &word_copy, &word_list) == NULL)
+			return (NULL);
+		/*if ((*token_stream)->type >= T_REDIR_IN
 			&& (*token_stream)->type <= T_HEREDOC)
 		{
 			if (handle_redirection(cmd, token_stream) != 0)
@@ -63,7 +87,7 @@ static t_command	*parse_single_command(t_pars **token_stream)
 				ft_lstadd_back(&word_list, ft_lstnew(word_copy));
 			}
 		}
-		*token_stream = (*token_stream)->next;
+		*token_stream = (*token_stream)->next;*/
 	}
 	if (word_list)
 	{

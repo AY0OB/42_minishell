@@ -36,6 +36,7 @@ SRCS = 	src/main.c \
 		src/command_utils.c \
 		src/debug_command_print.c \
 		src/executor.c \
+		src/executor_bis.c \
 		src/path_finder.c \
 		src/executor_utils.c \
 		src/signals.c \

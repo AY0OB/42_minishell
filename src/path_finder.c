@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 01:12:24 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/20 01:12:51 by amairia          ###   ########.fr       */
+/*   Updated: 2025/07/27 06:27:19 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ static char	*build_path(char *dir_path, char *cmd)
 	return (full_path);
 }
 
-static char	*find_in_paths(char *cmd, char **envp)
+static char	*find_in_paths(char *cmd, char **envp, int i)
 {
 	char	**paths_array;
 	char	*path_value;
 	char	*full_path;
-	int		i;
+	//int		i;
 
 	(void)envp;
 	path_value = getenv("PATH");
@@ -54,7 +54,7 @@ static char	*find_in_paths(char *cmd, char **envp)
 	paths_array = ft_split(path_value, ':');
 	if (!paths_array)
 		return (NULL);
-	i = 0;
+	//i = 0;
 	while (paths_array[i])
 	{
 		full_path = build_path(paths_array[i], cmd);
@@ -81,5 +81,5 @@ char	*get_command_path(char *cmd, char **envp)
 		else
 			return (NULL); // invalid
 	}
-	return (find_in_paths(cmd, envp));
+	return (find_in_paths(cmd, envp, 0));
 }

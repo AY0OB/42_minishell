@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 10:39:19 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/19 23:34:22 by amairia          ###   ########.fr       */
+/*   Updated: 2025/07/27 07:10:25 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static	int	feed_fic(char *doc_stop, int fd, bool hdq)
 		return (-1);
 	}
 	while (ft_strncmp((const char *)doc_stop,
-			(const char *)line, ft_strlen(line)) != 0)
+			(const char *)line, -1) != 0)
 	{
 		if (!hdq)
 			check_env_hd(&line);
