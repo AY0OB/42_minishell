@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 01:11:16 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/20 01:11:50 by amairia          ###   ########.fr       */
+/*   Updated: 2025/07/27 08:11:09 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			if (parsing(line, all->lst) == -1)
 			{
-				ft_printf("Allco error\n");
+				ft_printf("Alloc error\n");
 				clear_all(all, line);
 				return (-1);
 			}
