@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/27 22:41:46 by amairia           #+#    #+#             */
+/*   Updated: 2025/07/27 22:50:24 by amairia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LIBFT_H
 # define LIBFT_H
 
@@ -67,10 +79,9 @@ char	*get_next_line(int fd);
 char	*ft_strjoin_free(char *s1, char const *s2);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstnew(void *content);
-t_list 	*ft_lstlast(t_list *lst);
+t_list	*ft_lstlast(t_list *lst);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstclear(t_list **lst, void (*del)(void*));
 int		ft_lstsize(t_list *lst);
-
 
 #endif

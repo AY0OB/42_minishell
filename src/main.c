@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 01:11:16 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/27 08:11:09 by amairia          ###   ########.fr       */
+/*   Updated: 2025/07/27 22:38:18 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,55 @@ static t_all	*set_struct(void)
 	return (all);
 }
 
+static int	do_prog_bis(char **line, t_all **all)
+{
+	if (*line)
+		free(*line);
+	pars_lstclear(*all);
+	if (set_list(&(all[0]->lst)) == -1)
+	{
+		clear_all(*all, *line);
+		return (-1);
+	}
+	return (0);
+}
+
+static int	do_prog(char **line, t_all **all,
+			t_command **commands, char ***envp)
+{
+	*line = readline("minishell ");
+	if (!*line)
+		return (1);
+	if (*line && line[0][0])
+		add_history((const char *)line);
+	if (*line && line[0][0] && first_pars(*line) == 1
+			&& check_quote(*line) == 1)
+	{
+		if (parsing(*line, all[0]->lst) == -1)
+		{
+			ft_printf("Alloc error\n");
+			clear_all(*all, *line);
+			return (-1);
+		}
+		*commands = interpreter(*(all[0]->lst));
+		if (*commands)
+			all[0]->last_exit_status = executor(*commands, *envp, *all);
+		free_command_list(*commands);
+		if (do_prog_bis(line, all) == -1)
+			return (-1);
+		/*if (*line)
+			free(*line);
+		pars_lstclear(*all);
+		if (set_list(&(all[0]->lst)) == -1)
+		{
+			clear_all(*all, *line);
+			return (-1);
+		}*/
+		setup_interactive_mode();
+	}
+	return (0);
+}
+
 // =============
 // FONCTION MAIN
 // =============
@@ -64,6 +113,8 @@ int	main(int argc, char **argv, char **envp)
 	char		*line;
 	t_all		*all;
 	t_command	*commands;
+	int			exit_code;
+	int			check;
 
 	(void)argc;
 	(void)argv;
@@ -72,9 +123,11 @@ int	main(int argc, char **argv, char **envp)
 		return (-1);
 	all->env_list = init_environment(envp);
 	setup_interactive_mode();
-	while (1)
+	check = do_prog(&line, &all, &commands, &envp);
+	while (check == 0)
 	{
-		line = readline("minishell ");
+		check = do_prog(&line, &all, &commands, &envp);
+		/*line = readline("minishell ");
 		if (!line)
 			break ;
 		if (line && *line)
@@ -100,9 +153,12 @@ int	main(int argc, char **argv, char **envp)
 				return (-1);
 			}
 			setup_interactive_mode();
-		}
+		}*/
 	}
+	if (check == -1)
+		return (-1);
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
+	exit_code = all->last_exit_status;
 	clear_all(all, line);
-	return (all->last_exit_status);
+	return (exit_code);
 }
