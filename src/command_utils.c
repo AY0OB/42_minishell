@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 23:51:23 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/19 23:53:13 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/05 15:47:01 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	free_command_list(t_command *cmd_list)
 	t_command	*current;
 	t_command	*next_node;
 
+	if (!cmd_list)
+		return ;
 	current = cmd_list;
 	while (current)
 	{
