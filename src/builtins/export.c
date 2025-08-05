@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 23:40:33 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/20 17:07:54 by amairia          ###   ########.fr       */
+/*   Updated: 2025/07/29 19:18:09 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char	**env_list_to_array(t_list *env_list, int size)
 		var = (t_env_var *)env_list->content;
 		if (var->value)
 		{
-			env_list_to_array_bis(var, array, tmp, i); // ICI
+			env_list_to_array_bis(var, &array, &tmp, i); // ICI
 			/*tmp = ft_strjoin(var->key, "=\"");
 			array[i] = ft_strjoin(tmp, var->value);
 			free(tmp);

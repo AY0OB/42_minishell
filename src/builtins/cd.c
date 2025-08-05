@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 23:36:51 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/20 04:31:57 by amairia          ###   ########.fr       */
+/*   Updated: 2025/07/29 18:39:32 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,15 @@ static void	update_env_var(t_list **env_list,
 	}
 }
 
-static int	cd_bis(t_all *all, char *old_pwd, char *new_pwd)
+static int	cd_bis(t_all **all, char *old_pwd, char *new_pwd)
 {
 	if (getcwd(new_pwd, PATH_MAX) == NULL)
 	{
 		perror("minishell: cd: getcwd");
 		return (1);
 	}
-	update_env_var(&all->env_list, "OLDPWD", old_pwd);
-	update_env_var(&all->env_list, "PWD", new_pwd);
+	update_env_var(&(all[0]->env_list), "OLDPWD", old_pwd);
+	update_env_var(&(all[0]->env_list), "PWD", new_pwd);
 	return (0);
 }
 
@@ -69,5 +69,14 @@ int	builtin_cd(char **argv, t_all *all)
 		perror("minishell: cd");
 		return (1);
 	}
-	return (cd_bis(all, old_pwd, new_pwd)); // ICI
+	/*
+	if (getcwd(new_pwd, PATH_MAX) == NULL)
+	{
+		perror("minishell: cd: getcwd");
+		return (1);
+	}
+	update_env_var(&all->env_list, "OLDPWD", old_pwd);
+	update_env_var(&all->env_list, "PWD", new_pwd);
+	return (0);*/
+	return (cd_bis(&all, old_pwd, new_pwd)); // ICI
 }

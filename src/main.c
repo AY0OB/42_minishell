@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 01:11:16 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/27 22:38:18 by amairia          ###   ########.fr       */
+/*   Updated: 2025/07/29 18:42:47 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	do_prog(char **line, t_all **all,
 	if (!*line)
 		return (1);
 	if (*line && line[0][0])
-		add_history((const char *)line);
+		add_history((const char *)*line);
 	if (*line && line[0][0] && first_pars(*line) == 1
 			&& check_quote(*line) == 1)
 	{

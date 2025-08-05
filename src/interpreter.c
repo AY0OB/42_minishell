@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 01:07:31 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/27 06:11:33 by amairia          ###   ########.fr       */
+/*   Updated: 2025/07/29 19:11:36 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,9 @@ int	handle_redirection(t_command *cmd, t_pars **token_ptr)
 	t_pars		*filename_token;
 
 	redir_type = (*token_ptr)->type;
-	*token_ptr = (*token_ptr)->next;
+	if (redir_type != T_HEREDOC)
+		*token_ptr = (*token_ptr)->next;
 	filename_token = *token_ptr;
-	if (filename_token == NULL || filename_token->type != T_WORD)
-	{
-		ft_putstr_fd("minishell: syntax error near unexpected token\n", 2);
-		return (-1);
-	}
 	if (redir_type == T_REDIR_OUT)
 		cmd->redirect_out = ft_strdup(filename_token->content);
 	else if (redir_type == T_REDIR_IN)

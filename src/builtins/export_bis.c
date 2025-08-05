@@ -6,21 +6,21 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 03:54:04 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/20 16:58:37 by amairia          ###   ########.fr       */
+/*   Updated: 2025/07/29 19:18:34 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 void	env_list_to_array_bis(t_env_var *var,
-		char **array, char *tmp, int i)
+		char ***array, char **tmp, int i)
 {
-	tmp = ft_strjoin(var->key, "=\"");
-	array[i] = ft_strjoin(tmp, var->value);
-	free(tmp);
-	tmp = array[i];
-	array[i] = ft_strjoin(tmp, "\"");
-	free(tmp);
+	*tmp = ft_strjoin(var->key, "=\"");
+	array[0][i] = ft_strjoin(*tmp, var->value);
+	free(*tmp);
+	*tmp = array[0][i];
+	array[0][i] = ft_strjoin(*tmp, "\"");
+	free(*tmp);
 }
 
 t_env_var	*split_env_var(const char *arg)
