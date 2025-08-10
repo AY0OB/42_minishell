@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 03:57:51 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/10 15:00:14 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/10 19:01:17 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ enum e_type
 	DOC_STOP,
 };
 */
+
+# define HD_END	"bash : warning: here-document \
+delimited by end-of-file (wanted '%s')\n"
 
 // changement logique du parser,
 // on sépare lexer puis interprétation (command ou arg ou autre)
