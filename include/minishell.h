@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 03:57:51 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/10 19:01:17 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/10 19:45:09 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,7 +219,7 @@ int			execute_builtin(t_command *cmd, t_all *all);
 int			is_builtin(char *cmd_name);
 int			builtin_unset(char **argv, t_list **env_list_ptr);
 int			builtin_pwd(void);
-int			builtin_echo(char **argv);
+int			builtin_echo(char **argv, int exit_code);
 int			builtin_cd(char **argv, t_all *all);
 int			builtin_env(t_list *env_list);
 int			builtin_exit(char **argv, t_all *all);

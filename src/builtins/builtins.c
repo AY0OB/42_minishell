@@ -43,7 +43,7 @@ int	execute_builtin(t_command *cmd, t_all *all)
 	if (ft_strncmp(cmd_name, "pwd", 4) == 0)
 		return (builtin_pwd());
 	if (ft_strncmp(cmd_name, "echo", 5) == 0)
-		return (builtin_echo(cmd->argv));
+		return (builtin_echo(cmd->argv, all->last_exit_status));
 	if (ft_strncmp(cmd_name, "cd", 3) == 0)
 		return (builtin_cd(cmd->argv, all));
 	if (ft_strncmp(cmd_name, "env", 4) == 0)
