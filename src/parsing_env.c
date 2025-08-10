@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 03:02:53 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/10 18:24:32 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/10 18:35:41 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,13 @@ static int	verif_in_quote(t_pars *lst, int i)
 	size_t	j;
 
 	len = ft_strlen((const char *)lst->content);
+	j = 0;
+	while (j < len - 1)
+	{
+		if (lst->dtab[j] == i + 1)
+			return (-1);
+		j++;
+	}
 	j = 0;
 	while (j + 1 < len - 1)
 	{
