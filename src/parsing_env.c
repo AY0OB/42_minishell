@@ -6,13 +6,13 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 03:02:53 by amairia           #+#    #+#             */
-/*   Updated: 2025/06/20 19:13:27 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/10 18:20:41 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static char	*get_env(char *str, int i, int end_quote)
+/*static char	*get_env(char *str, int i, int end_quote)
 {
 	int		j;
 	char	*pre_env;
@@ -39,7 +39,7 @@ static char	*get_env(char *str, int i, int end_quote)
 	env_value = getenv((const char *)pre_env);
 	free(pre_env);
 	return (env_value);
-}
+}*/
 
 static int	pos_end_quote(t_pars *lst, int i, int len_base)
 {
@@ -81,7 +81,7 @@ static int	verif_in_quote(t_pars *lst, int i)
 	return (1);
 }
 
-static void	check_env(t_pars *lst, int len_base)
+static void	check_env(t_pars *lst, int len_base, int *check)
 {
 	char	*env_var;
 	int		i;
@@ -102,7 +102,7 @@ static void	check_env(t_pars *lst, int len_base)
 			info.i = i;
 			info.end_quote = end_quote;
 			info.len_base = len_base;
-			add_env(lst, env_var, &info);
+			*check = add_env(lst, env_var, &info);
 			i = 0;
 		}
 		else
@@ -114,16 +114,19 @@ void	pars_env(t_pars **lst)
 {
 	t_pars	*lst_tmp;
 	int		len_content_base;
+	int		check;
 
 	lst_tmp = *lst;
 	len_content_base = 0;
 	while (lst_tmp)
 	{
+		check = 0;
 		if (lst_tmp->tab)
 		{
 			len_content_base = ft_strlen(lst_tmp->content);
-			check_env(lst_tmp, len_content_base);
+			check_env(lst_tmp, len_content_base, &check);
 		}
-		lst_tmp = lst_tmp->next;
+		if (check == 0)
+			lst_tmp = lst_tmp->next;
 	}
 }

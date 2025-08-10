@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 03:57:51 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/29 19:19:36 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/10 15:00:14 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,10 +153,18 @@ int			*tmp_index(int i);
 int			even_nb(int nb);
 
 void		pars_env(t_pars **lst);
-void		add_env(t_pars *lst, char *env_var, t_env *info);
+int			add_env(t_pars *lst, char *env_var, t_env *info);
+
+void		feed_new_lst(t_pars *lst, char *env_var, int i);
 
 t_envbis	set_envbis(void);
 int			end_env(char *str, t_envbis info, int end_quote);
+int			check_tab(int *tab, int *dtab, int len_tab);
+int			check_space(char *str);
+
+void		modif_env(char *env, int *i);
+char		*set_char(int i, int j);
+void		set_new_lst(t_pars **lst, t_pars **new, char *env_var, int i);
 
 int			here_doc(t_pars **lst);
 void		check_env_hd(char **line);

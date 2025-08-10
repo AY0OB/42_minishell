@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 01:11:16 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/29 18:42:47 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/10 15:32:47 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,15 @@ static t_all	*set_struct(void)
 
 static int	do_prog_bis(char **line, t_all **all)
 {
-	if (*line)
-		free(*line);
-	pars_lstclear(*all);
-	if (set_list(&(all[0]->lst)) == -1)
+	t_pars	**lst;
+
+	if (set_list(&lst) == -1)
 	{
 		clear_all(*all, *line);
 		return (-1);
 	}
+	pars_lstclear(*all);
+	all[0]->lst = lst;
 	return (0);
 }
 
@@ -85,6 +86,8 @@ static int	do_prog(char **line, t_all **all,
 			clear_all(*all, *line);
 			return (-1);
 		}
+		if (*line)
+			free(*line);
 		*commands = interpreter(*(all[0]->lst));
 		if (*commands)
 			all[0]->last_exit_status = executor(*commands, *envp, *all);
@@ -159,6 +162,6 @@ int	main(int argc, char **argv, char **envp)
 		return (-1);
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	exit_code = all->last_exit_status;
-	clear_all(all, line);
+	clear_all(all, NULL);
 	return (exit_code);
 }

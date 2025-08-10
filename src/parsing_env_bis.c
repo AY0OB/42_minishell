@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 05:47:01 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/17 13:11:03 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/10 18:19:48 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,24 @@ static void	incr_tab(t_pars *lst, char *n_content, int pos, int len_base)
 		incr_tab_bis(lst, pos, len_nc - len_c, len_base);
 }
 
-void	add_env(t_pars *lst, char *env_var, t_env *info)
+int	add_env(t_pars *lst, char *env_var, t_env *info)
 {
 	char	*n_content;
 
 	n_content = NULL;
-	n_content = feed_new_content(lst->content, env_var, info->i,
-			info->end_quote);
-	incr_tab(lst, n_content, info->i, info->len_base);
-	free(lst->content);
-	lst->content = n_content;
+	if (!env_var || check_space(env_var) == 0
+		|| check_tab(lst->tab, lst->dtab, ft_strlen(lst->content)) == -1)
+	{
+		n_content = feed_new_content(lst->content, env_var, info->i,
+				info->end_quote);
+		incr_tab(lst, n_content, info->i, info->len_base);
+		free(lst->content);
+		lst->content = n_content;
+		return (0);
+	}
+	else
+	{
+		feed_new_lst(lst, env_var, info->i);
+		return (1);
+	}
 }

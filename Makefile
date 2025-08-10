@@ -20,6 +20,8 @@ SRCS = 	src/main.c \
 		src/parsing_env.c \
 		src/parsing_env_bis.c \
 		src/parsing_env_bis2.c \
+		src/parsing_env_bis2_utils.c \
+		src/parsing_env_utils.c \
 		src/parsing_here_doc.c \
 		src/parsing_here_doc_env.c \
 		src/parsing_here_doc_clear.c \

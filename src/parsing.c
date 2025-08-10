@@ -6,11 +6,49 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 23:32:09 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/19 23:32:16 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/10 16:50:06 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+static void	clear_one(t_pars *lst)
+{
+	t_pars	*next;
+	t_pars	*prev;
+
+	prev = lst->prev;
+	next = lst->next;
+	if (lst->content)
+		free(lst->content);
+	if (lst->tab)
+		free(lst->tab);
+	if (lst->dtab)
+		free(lst->dtab);
+	free(lst);
+	if (prev && next)
+	{
+		prev->next = next;
+		next->prev = prev;
+	}
+}
+
+static void	clear_lst(t_pars **lst)
+{
+	t_pars	*tmp;
+	t_pars	*tmp_next;
+
+	tmp = *lst;
+	while (tmp)
+	{
+		tmp_next = tmp->next;
+		if (tmp->content[0] == '\0')
+		{
+			clear_one(tmp);
+		}
+		tmp = tmp_next;
+	}
+}
 
 static int	feed_lst_token(t_pars **lst, int is_token, int *i)
 {
@@ -64,5 +102,6 @@ int	parsing(char *line, t_pars **lst)
 	pars_env(lst);
 	if (here_doc(lst) == -1)// ajout d'une fonction qui gère tout les here_doc et qui remplace le "<<" here_doc par le nom du fichier a ouvrir et qui supprime le doc_stop de la liste chainée
 		return (-1);
+	clear_lst(lst);
 	return (0);
 }
