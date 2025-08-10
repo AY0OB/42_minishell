@@ -6,13 +6,13 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 03:02:53 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/10 18:20:41 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/10 18:24:32 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-/*static char	*get_env(char *str, int i, int end_quote)
+static char	*get_env(char *str, int i, int end_quote)
 {
 	int		j;
 	char	*pre_env;
@@ -39,7 +39,7 @@
 	env_value = getenv((const char *)pre_env);
 	free(pre_env);
 	return (env_value);
-}*/
+}
 
 static int	pos_end_quote(t_pars *lst, int i, int len_base)
 {
