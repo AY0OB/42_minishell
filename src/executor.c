@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 00:04:42 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/27 05:49:28 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/21 21:32:55 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <fcntl.h>
 
 static int	execute_single_builtin(t_command *cmd, t_all *all);
-//static int	execute_pipeline(t_command *cmd_list, char **envp, t_all *all);
 static int	execute_pipeline(t_command *cmd_list, char **envp,
 				t_all *all, int in_fd);
 static int	wait_for_children(int last_pid);
@@ -30,7 +29,6 @@ int	executor(t_command *cmd_list, char **envp, t_all *all)
 	}
 	else
 	{
-		//return (execute_pipeline(cmd_list, envp, all));
 		return (execute_pipeline(cmd_list, envp, all, STDIN_FILENO));
 	}
 }
@@ -64,42 +62,19 @@ static int	execute_single_builtin(t_command *cmd, t_all *all)
 	return (exit_status);
 }
 
-//static int	execute_pipeline(t_command *cmd_list, char **envp, t_all *all)
 static int	execute_pipeline(t_command *cmd_list, char **envp,
 				t_all *all, int in_fd)
 {
 	int		pipefd[2];
 	int		fd[2];
-	//int		in_fd;
 	pid_t	last_pid;
 
-	//in_fd = STDIN_FILENO;
 	last_pid = -1;
 	setup_execution_mode();
 	while (cmd_list)
 	{
-		// SUPP PAR RAPPORT AUX HEREDOC
-		/*if (cmd_list->heredoc_lim)
-		{
-			if (in_fd != STDIN_FILENO)
-				close(in_fd);
-			in_fd = handle_heredoc(cmd_list, all);
-			if (in_fd == -1)
-				return (1);
-		}*/
 		if (execute_pipeline_check(cmd_list, pipefd, &last_pid) == 1)
 			return (1);
-		/*if (cmd_list->next && pipe(pipefd) == -1)
-		{
-			perror("minishell: pipe");
-			return (1);
-		}
-		last_pid = fork();
-		if (last_pid == -1)
-		{
-			perror("minishell: fork");
-			return (1);
-		}*/
 		fd[0] = in_fd;
 		fd[1] = STDOUT_FILENO;
 		if (last_pid == 0 && cmd_list->next)
@@ -109,21 +84,9 @@ static int	execute_pipeline(t_command *cmd_list, char **envp,
 		}
 		else if (last_pid == 0)
 			child_process(cmd_list, envp, fd, all);
-		/*if (last_pid == 0)
-		{
-			if (cmd_list->next)
-				child_process(cmd_list, envp, in_fd, pipefd[1], all);
-			else
-				child_process(cmd_list, envp, in_fd, STDOUT_FILENO, all);
-		}*/
 		if (in_fd != STDIN_FILENO)
 			close(in_fd);
 		execute_pipeline_fd(cmd_list, pipefd, &in_fd);
-		/*if (cmd_list->next)
-		{
-			close(pipefd[1]);
-			in_fd = pipefd[0];
-		}*/
 		cmd_list = cmd_list->next;
 	}
 	return (wait_for_children(last_pid));

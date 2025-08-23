@@ -9,6 +9,7 @@ LIBFT_DIR = libft/
 LIBFT_A = $(LIBFT_DIR)libft.a
 
 SRCS = 	src/main.c \
+		src/setter.c \
 		src/clear_all.c \
 		src/first_pars.c \
 		src/first_pars_bis.c \
@@ -23,6 +24,7 @@ SRCS = 	src/main.c \
 		src/parsing_env_bis2_utils.c \
 		src/parsing_env_utils.c \
 		src/parsing_here_doc.c \
+		src/parsing_here_doc_utils.c \
 		src/parsing_here_doc_env.c \
 		src/parsing_here_doc_clear.c \
 		src/utils.c \

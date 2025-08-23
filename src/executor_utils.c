@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 00:06:41 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/27 05:31:18 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/21 21:34:22 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,28 +48,6 @@ int	handle_command_redirections(t_command *cmd)
 {
 	int	fd;
 
-	/*if (cmd->redirect_in)
-	{
-		fd = open(cmd->redirect_in, O_RDONLY);
-		if (fd == -1)
-		{
-			perror(cmd->redirect_in);
-			return (-1);
-		}
-		dup2(fd, STDIN_FILENO);
-		close(fd);
-	}
-	if (cmd->redirect_out)
-	{
-		fd = open(cmd->redirect_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd == -1)
-		{
-			perror(cmd->redirect_out);
-			return (-1);
-		}
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
-	}*/
 	if (handle_command_redirections_bis(cmd) == -1)
 		return (-1);
 	if (cmd->append_out)
@@ -111,57 +89,17 @@ void	child_process(t_command *cmd, char **envp,
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	if (fd[0] != STDIN_FILENO) //redirect to prev pipe
+	if (fd[0] != STDIN_FILENO)
 	{
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 	}
-	if (fd[1] != STDOUT_FILENO) //redirect to next pipe
+	if (fd[1] != STDOUT_FILENO)
 	{
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
-	if (handle_command_redirections(cmd) == -1) //redirect
+	if (handle_command_redirections(cmd) == -1)
 		exit(1);
 	launch_command(cmd, envp, all);
 }
-/*
-void	child_process(t_command *cmd, char **envp,
-			int in_fd, int out_fd, t_all *all)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	if (in_fd != STDIN_FILENO) //redirect to prev pipe
-	{
-		dup2(in_fd, STDIN_FILENO);
-		close(in_fd);
-	}
-	if (out_fd != STDOUT_FILENO) //redirect to next pipe
-	{
-		dup2(out_fd, STDOUT_FILENO);
-		close(out_fd);
-	}
-	if (handle_command_redirections(cmd) == -1) //redirect
-		exit(1);
-	launch_command(cmd, envp, all);
-}*/
-
-/*void	child_process(t_command *cmd, char **envp,
-			int in_fd, int out_fd, t_all *all)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	if (in_fd != STDIN_FILENO) //redirect to prev pipe
-	{
-		dup2(in_fd, STDIN_FILENO);
-		close(in_fd);
-	}
-	if (out_fd != STDOUT_FILENO) //redirect to next pipe
-	{
-		dup2(out_fd, STDOUT_FILENO);
-		close(out_fd);
-	}
-	if (handle_command_redirections(cmd) == -1) //redirect
-		exit(1);
-	launch_command(cmd, envp, all);
-}*/

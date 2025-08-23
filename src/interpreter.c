@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 01:07:31 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/29 19:11:36 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/21 22:08:57 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,21 +73,6 @@ static t_command	*parse_single_command(t_pars **token_stream)
 		if (parse_single_command_bis(token_stream,
 				&cmd, &word_copy, &word_list) == NULL)
 			return (NULL);
-		/*if ((*token_stream)->type >= T_REDIR_IN
-			&& (*token_stream)->type <= T_HEREDOC)
-		{
-			if (handle_redirection(cmd, token_stream) != 0)
-				return (NULL);
-		}
-		else if ((*token_stream)->type == T_WORD)
-		{
-			word_copy = ft_strdup((*token_stream)->content);
-			if ((*token_stream)->content)
-			{
-				ft_lstadd_back(&word_list, ft_lstnew(word_copy));
-			}
-		}
-		*token_stream = (*token_stream)->next;*/
 	}
 	if (word_list)
 	{

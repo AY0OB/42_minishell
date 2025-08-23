@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 23:32:09 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/10 20:14:26 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/21 22:09:29 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	parsing(char *line, t_pars **lst)
 				return (-1);
 	}
 	pars_env(lst);
-	if (here_doc(lst) == -1)// ajout d'une fonction qui gère tout les here_doc et qui remplace le "<<" here_doc par le nom du fichier a ouvrir et qui supprime le doc_stop de la liste chainée
-		return (-1);
+	if (here_doc(lst) == -1)
+		return (1);
 	return (0);
 }

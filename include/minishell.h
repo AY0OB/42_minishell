@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 03:57:51 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/10 19:45:09 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/21 21:41:56 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdbool.h>
+# include <signal.h>
 //--------------------------------
 /*
 enum e_type
@@ -39,7 +40,7 @@ enum e_type
 };
 */
 
-# define HD_END	"bash : warning: here-document \
+# define HD_END	"minishell : warning: here-document \
 delimited by end-of-file (wanted '%s')\n"
 
 // changement logique du parser,
@@ -139,6 +140,9 @@ void		pars_lstclear(t_all *all);
 t_pars		*pars_lstlast(t_pars *lst);
 int			pars_lstsize(t_pars *lst);
 
+int			set_list(t_pars ***lst);
+t_all		*set_struct(void);
+
 int			first_pars(char *line);
 int			check_quote(char *line);
 
@@ -172,6 +176,8 @@ void		set_new_lst(t_pars **lst, t_pars **new, char *env_var, int i);
 int			here_doc(t_pars **lst);
 void		check_env_hd(char **line);
 void		clear_doc_stop(t_pars *lst);
+int			aff_ctrld(char *doc_stop);
+void		hd_ctrlc(int sig);
 
 void		skip_space(char *str, int *i);
 

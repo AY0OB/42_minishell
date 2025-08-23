@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 23:40:33 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/29 19:18:09 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/21 21:31:46 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,14 @@ static char	**env_list_to_array(t_list *env_list, int size)
 	array = ft_calloc(size + 1, sizeof(char *));
 	if (!array)
 		return (NULL);
-	tmp = NULL; // ICI
+	tmp = NULL;
 	i = 0;
 	while (env_list)
 	{
 		var = (t_env_var *)env_list->content;
 		if (var->value)
 		{
-			env_list_to_array_bis(var, &array, &tmp, i); // ICI
-			/*tmp = ft_strjoin(var->key, "=\"");
-			array[i] = ft_strjoin(tmp, var->value);
-			free(tmp);
-			tmp = array[i];
-			array[i] = ft_strjoin(tmp, "\"");
-			free(tmp);*/
+			env_list_to_array_bis(var, &array, &tmp, i);
 		}
 		else
 			array[i] = ft_strdup(var->key);
@@ -110,11 +104,6 @@ int	builtin_export(char **argv, t_list **env_list_ptr)
 		new_var = split_env_var(argv[i]);
 		if (export_bis(new_var, &i) == -1)
 			continue ;
-		/*if (!new_var)
-		{
-			i++;
-			continue ;
-		}*/
 		existing_node = find_env_var(*env_list_ptr, new_var->key);
 		if (existing_node)
 		{

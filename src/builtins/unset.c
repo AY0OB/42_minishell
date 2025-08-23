@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 23:42:37 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/20 16:57:13 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/21 21:31:02 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,6 @@ int	builtin_unset(char **argv, t_list **env_list_ptr)
 					argv[i], ft_strlen(argv[i]) + 1) == 0)
 			{
 				unset_bis(env_list_ptr, current, prev);
-				/*if (prev == NULL)
-					*env_list_ptr = current->next;
-				else
-					prev->next = current->next;
-				ft_lstdelone(current, free_env_var);*/
 				break ;
 			}
 			prev = current;

@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 23:39:39 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/10 19:55:07 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/21 21:30:25 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	builtin_echo(char **argv, int exit_code)
 	}
 	while (argv[i])
 	{
-		//ft_putstr_fd(argv[i], STDOUT_FILENO);
 		aff_str(argv[i], exit_code);
 		if (argv[i + 1])
 			ft_putstr_fd(" ", STDOUT_FILENO);
