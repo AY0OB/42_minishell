@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 03:57:51 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/21 21:41:56 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/23 17:30:47 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,38 +22,21 @@
 # include <fcntl.h>
 # include <stdbool.h>
 # include <signal.h>
+
 //--------------------------------
-/*
-enum e_type
-{
-	YES,
-	NO,
-	NONE,
-	COMMAND,
-	FILE_,
-	APNDMOD,
-	REDIR_IN,
-	REDIR_OUT,
-	PIPE,
-	HERE_DOC,
-	DOC_STOP,
-};
-*/
 
 # define HD_END	"minishell : warning: here-document \
 delimited by end-of-file (wanted '%s')\n"
 
-// changement logique du parser,
-// on sépare lexer puis interprétation (command ou arg ou autre)
 enum e_type
 {
-	T_PIPE,			// '|'
-	T_REDIR_IN,		// '<'
-	T_REDIR_OUT,		// '>'
-	T_APPEND,		// '>'
-	T_HEREDOC,		// '<<'
-	T_WORD,			// générique
-	T_UNKNOWN,		// au cas ou j'ai fait de la merde
+	T_PIPE,
+	T_REDIR_IN,
+	T_REDIR_OUT,
+	T_APPEND,
+	T_HEREDOC,
+	T_WORD,
+	T_UNKNOWN,
 };
 
 typedef struct s_command
@@ -188,7 +171,7 @@ void		print_debug_lst(t_pars *lst);
 
 // interpreter
 
-t_command	*interpreter(t_pars *token);//, t_all *all);
+t_command	*interpreter(t_pars **token);
 int			handle_redirection(t_command *cmd, t_pars **token_ptr);
 char		**words_to_argv(t_list *word_list);
 t_command	*new_command(void);
@@ -214,8 +197,6 @@ int			execute_pipeline_check(t_command *cmd_list,
 void		execute_pipeline_fd(t_command *cmd_list, int pipefd[2], int *in_fd);
 void		child_process(t_command *cmd, char **envp,
 				int fd[2], t_all *all);
-//void		child_process(t_command *cmd, char **envp,
-//				int in_fd, int out_fd, t_all *all);
 
 //pathfinder
 char		*get_command_path(char *cmd, char **envp);

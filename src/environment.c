@@ -12,7 +12,6 @@
 
 #include "../include/minishell.h"
 
-// fonction pour libérer un maillon de d'env
 void	free_env_var(void *env_var_ptr)
 {
 	t_env_var	*var;
@@ -25,7 +24,6 @@ void	free_env_var(void *env_var_ptr)
 	free(var);
 }
 
-// initialise la list d'env à partir de l'envp
 t_list	*init_environment(char **envp)
 {
 	t_list		*env_list;

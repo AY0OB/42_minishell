@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 01:11:16 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/21 22:08:24 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/23 18:25:44 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	do_prog(char **line, t_all **all,
 			return (-1);
 		if (check == 0)
 		{
-			*commands = interpreter(*(all[0]->lst));
+			*commands = interpreter((all[0]->lst));
 			if (*commands)
 				all[0]->last_exit_status = executor(*commands, *envp, *all);
 			free_command_list(*commands);

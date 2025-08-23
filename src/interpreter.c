@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 01:07:31 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/21 22:08:57 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/23 17:32:20 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 static t_command	*parse_single_command(t_pars **token_stream);
 
-t_command	*interpreter(t_pars *tokens)
+t_command	*interpreter(t_pars **tokens)
 {
 	t_pars		*current_token;
 	t_command	*cmd_list_head;
 	t_command	*new_cmd;
 
-	current_token = tokens;
+	current_token = *tokens;
 	cmd_list_head = NULL;
 	while (current_token)
 	{
