@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 00:04:42 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/24 21:50:57 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/24 23:21:46 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	execute_pipeline(t_command *cmd_list, char **envp,
 	setup_execution_mode();
 	while (cmd_list)
 	{
-		if (execute_pipeline_check(cmd_list, pipefd, &last_pid) == 1)
+		if (execute_pipeline_check(cmd_list, pipefd, &last_pid, envp) == 1)
 			return (1);
 		fd[0] = in_fd;
 		fd[1] = STDOUT_FILENO;

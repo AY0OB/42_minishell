@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 23:40:18 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/24 21:53:17 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/24 23:26:44 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,7 @@ static void	check(t_all *all, t_command *cmd, int exit_cd)
 	free_command_list(cmd);
 	clear_all(all, NULL);
 	if (pipe)
-	{	
 		ft_exit(exit_cd);
-	}
 	exit(exit_cd);
 }
 

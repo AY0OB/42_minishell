@@ -196,7 +196,7 @@ void		free_argv(char **argv);
 int			executor(t_command *cmd_list, char **envp, t_all *all);
 int			handle_command_redirections(t_command *cmd);
 int			execute_pipeline_check(t_command *cmd_list,
-				int pipefd[2], pid_t *last_pid);
+				int pipefd[2], pid_t *last_pid, char **envp);
 void		execute_pipeline_fd(t_command *cmd_list, int pipefd[2], int *in_fd);
 void		child_process(t_command *cmd, char **envp,
 				int fd[2], t_all *all);

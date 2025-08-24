@@ -97,13 +97,7 @@ static void	launch_command(t_command *cmd, char **envp, t_all *all)
 		ft_exit(execute_builtin(cmd, all));
 	cmd_path = get_command_path(cmd->argv[0], envp);
 	if (!cmd_path)
-	{
-		ft_putstr_fd("minishell: command not found: ", 2);
-		ft_putstr_fd(cmd->argv[0], 2);
-		ft_putstr_fd("\n", 2);
-		cmd_path = get_command_path("exit", envp);
 		ft_exit(127);
-	}
 	execve(cmd_path, cmd->argv, envp);
 	free(cmd_path);
 	perror("minishell");
