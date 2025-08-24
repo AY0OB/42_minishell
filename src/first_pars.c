@@ -44,7 +44,7 @@ static void	skip_token(char *line, int *i, int token)
 
 static void	error_msg(int token)
 {
-	ft_printf("bash: syntax error near unexpected token '");
+	ft_printf("minishell: syntax error near unexpected token '");
 	if (token == 1)
 		ft_printf(">'\n");
 	else if (token == 2)

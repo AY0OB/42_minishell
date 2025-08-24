@@ -115,8 +115,6 @@ char	**words_to_argv(t_list *word_list)
 	current_node = word_list;
 	while (current_node)
 	{
-		ft_printf("words_to_argv: Ajout de '%s' à argv[%d]\n",
-			(char *)current_node->content, i);
 		argv[i] = (char *)current_node->content;
 		i++;
 		current_node = current_node->next;

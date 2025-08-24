@@ -21,7 +21,7 @@ static int	quote_end(char *line, char quote, int *i)
 	}
 	if (!line[*i])
 	{
-		ft_printf("bash: syntax error quote %c\n", quote, *i);
+		ft_printf("minishell: syntax error quote %c\n", quote, *i);
 		return (-1);
 	}
 	else
