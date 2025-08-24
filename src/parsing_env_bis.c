@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 05:47:01 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/10 18:19:48 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/24 22:34:01 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,13 @@ int	add_env(t_pars *lst, char *env_var, t_env *info)
 		incr_tab(lst, n_content, info->i, info->len_base);
 		free(lst->content);
 		lst->content = n_content;
+		free(env_var);
 		return (0);
 	}
 	else
 	{
 		feed_new_lst(lst, env_var, info->i);
+		free(env_var);
 		return (1);
 	}
 }

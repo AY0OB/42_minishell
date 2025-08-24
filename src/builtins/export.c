@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-static char	**env_list_to_array(t_list *env_list, int size)
+char	**env_list_to_array(t_list *env_list, int size)
 {
 	char		**array;
 	int			i;

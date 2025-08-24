@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 01:07:31 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/23 17:32:20 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/24 20:23:28 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,12 @@ t_command	*interpreter(t_pars **tokens)
 	cmd_list_head = NULL;
 	while (current_token)
 	{
-		//new_cmd = parse_single_command(&current_token);
-		//if (!new_cmd)
-		if (add_command_back(&cmd_list_head, parse_single_command(&current_token)) == -1)
+		if (add_command_back(&cmd_list_head,
+				parse_single_command(&current_token)) == -1)
 		{
 			free_command_list(cmd_list_head);
 			return (NULL);
 		}
-		//add_command_back(&cmd_list_head, new_cmd);
 		if (current_token && current_token->type == T_PIPE)
 			current_token = current_token->next;
 	}

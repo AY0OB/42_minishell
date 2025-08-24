@@ -64,22 +64,29 @@ int	handle_command_redirections(t_command *cmd)
 	return (0);
 }
 
-void	set_exit(int cderr, char ***envp)
+void	ft_exit(int cderr)
 {
 	char	**tab;
 	char	*path;
-	//char	*str_err;
+	char	*str_err;
+	int		i;
 
-	(void)cderr;
+	i = 0;
 	path = ft_strdup("/bin/bash");
 	tab = ft_calloc(sizeof(char *), 5);
 	tab[0] = ft_strdup("bash");
 	tab[1] = ft_strdup("-c");
-	tab[2] = ft_strdup("exit");
-	/*str_err = ft_itoa(cderr);
-	tab[3] = str_err;*/
-	tab[3] = ft_strdup("127");
-	execve(path, tab, *envp);
+	tab[2] = ft_strdup("exit            ");
+	str_err = ft_itoa(cderr);
+	while (str_err[i])
+	{
+		tab[2][5 + i] = str_err[i];
+		i++;
+	}
+	tab[2][5 + i] = '\0';
+	execve(path, tab, NULL);
+	perror("minishell");
+	exit(cderr);
 }
 
 static void	launch_command(t_command *cmd, char **envp, t_all *all)
@@ -87,7 +94,7 @@ static void	launch_command(t_command *cmd, char **envp, t_all *all)
 	char	*cmd_path;
 
 	if (is_builtin(cmd->argv[0]))
-		exit(execute_builtin(cmd, all));
+		ft_exit(execute_builtin(cmd, all));
 	cmd_path = get_command_path(cmd->argv[0], envp);
 	if (!cmd_path)
 	{
@@ -95,26 +102,12 @@ static void	launch_command(t_command *cmd, char **envp, t_all *all)
 		ft_putstr_fd(cmd->argv[0], 2);
 		ft_putstr_fd("\n", 2);
 		cmd_path = get_command_path("exit", envp);
-		//char	*tab[] = {"bash", "-c", "exit 100", (char *)0};
-		//char	*path = "/bin/bash";
-		/*tab = ft_calloc(sizeof(char *), 3);
-		tab[0] = ft_calloc(sizeof(char), 6);
-		tab[1] = ft_calloc(sizeof(char), 6);
-		tab[0][0] = 'e';
-		tab[0][1] = 'x';
-		tab[0][2] = 'i';
-		tab[0][3] = 't';
-		tab[1][0] = '1';
-		tab[1][1] = '0';
-		tab[1][2] = '0';*/
-		//execve(path, tab, envp);
-		set_exit(127, &envp);
+		ft_exit(127);
 	}
 	execve(cmd_path, cmd->argv, envp);
 	free(cmd_path);
 	perror("minishell");
-	//exit(126);
-	exit(200);
+	ft_exit(126);
 }
 
 void	child_process(t_command *cmd, char **envp,
@@ -133,6 +126,6 @@ void	child_process(t_command *cmd, char **envp,
 		close(fd[1]);
 	}
 	if (handle_command_redirections(cmd) == -1)
-		exit(1);
+		ft_exit(1);
 	launch_command(cmd, envp, all);
 }

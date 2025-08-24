@@ -46,6 +46,7 @@ t_all	*set_struct(void)
 	all->data.std_in = 0;
 	all->data.std_out = 1;
 	all->last_exit_status = 0;
+	all->pipe = false;
 	all->env_list = NULL;
 	return (all);
 }

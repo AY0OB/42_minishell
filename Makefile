@@ -23,6 +23,7 @@ SRCS = 	src/main.c \
 		src/parsing_env_bis2.c \
 		src/parsing_env_bis2_utils.c \
 		src/parsing_env_utils.c \
+		src/ft_getenv.c \
 		src/parsing_here_doc.c \
 		src/parsing_here_doc_utils.c \
 		src/parsing_here_doc_env.c \
@@ -38,6 +39,7 @@ SRCS = 	src/main.c \
 		src/convert_type_to_str.c \
 		src/interpreter.c \
 		src/command_utils.c \
+		src/command_utils_bis.c \
 		src/debug_command_print.c \
 		src/executor.c \
 		src/executor_bis.c \

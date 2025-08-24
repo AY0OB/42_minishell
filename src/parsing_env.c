@@ -6,13 +6,13 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 03:02:53 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/10 18:35:41 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/24 22:35:23 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static char	*get_env(char *str, int i, int end_quote)
+static char	*get_env(char *str, int i, int end_quote, t_all *all)
 {
 	int		j;
 	char	*pre_env;
@@ -36,7 +36,7 @@ static char	*get_env(char *str, int i, int end_quote)
 	while (str[i] && (str[i] < 9 || str[i] > 13) && str[i] != 32
 		&& i < end_quote && str[i] != '\'' && str[i] != '$')
 		pre_env[j++] = str[i++];
-	env_value = getenv((const char *)pre_env);
+	env_value = ft_getenv(pre_env, all->env_list);
 	free(pre_env);
 	return (env_value);
 }
@@ -88,7 +88,7 @@ static int	verif_in_quote(t_pars *lst, int i)
 	return (1);
 }
 
-static void	check_env(t_pars *lst, int len_base, int *check)
+static void	check_env(t_pars *lst, int len_base, int *check, t_all *all)
 {
 	char	*env_var;
 	int		i;
@@ -105,7 +105,7 @@ static void	check_env(t_pars *lst, int len_base, int *check)
 			&& verif_in_quote(lst, i) != -1)
 		{
 			end_quote = pos_end_quote(lst, i, len_base);
-			env_var = get_env(lst->content, i, end_quote);
+			env_var = get_env(lst->content, i, end_quote, all);
 			info.i = i;
 			info.end_quote = end_quote;
 			info.len_base = len_base;
@@ -117,7 +117,7 @@ static void	check_env(t_pars *lst, int len_base, int *check)
 	}
 }
 
-void	pars_env(t_pars **lst)
+void	pars_env(t_pars **lst, t_all *all)
 {
 	t_pars	*lst_tmp;
 	int		len_content_base;
@@ -131,7 +131,7 @@ void	pars_env(t_pars **lst)
 		if (lst_tmp->tab)
 		{
 			len_content_base = ft_strlen(lst_tmp->content);
-			check_env(lst_tmp, len_content_base, &check);
+			check_env(lst_tmp, len_content_base, &check, all);
 		}
 		if (check == 0)
 			lst_tmp = lst_tmp->next;

@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 03:57:51 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/23 17:30:47 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/24 20:31:10 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_all
 	t_pars	**lst;
 	t_data	data;
 	t_list	*env_list;
+	bool	pipe;
 	int		last_exit_status;
 }				t_all;
 
@@ -122,6 +123,7 @@ int			pars_lstadd_back(t_pars **lst, t_pars *new);
 void		pars_lstclear(t_all *all);
 t_pars		*pars_lstlast(t_pars *lst);
 int			pars_lstsize(t_pars *lst);
+void		free_content(void *content);
 
 int			set_list(t_pars ***lst);
 t_all		*set_struct(void);
@@ -129,7 +131,7 @@ t_all		*set_struct(void);
 int			first_pars(char *line, int i);
 int			check_quote(char *line);
 
-int			parsing(char *line, t_pars **lst);
+int			parsing(char *line, t_pars **lst, t_all *all);
 int			verif_token(char *line, int i);
 
 int			feed_lst_content(t_pars **lst, char *line, int *i, bool hdq);
@@ -142,8 +144,10 @@ int			set_int_dquote(t_pars *lst, char *line, int i, int j);
 int			*tmp_index(int i);
 int			even_nb(int nb);
 
-void		pars_env(t_pars **lst);
+void		pars_env(t_pars **lst, t_all *all);
 int			add_env(t_pars *lst, char *env_var, t_env *info);
+char		*ft_getenv(char *env_name, t_list *env_list);
+char		**env_list_to_array(t_list *env_list, int size);
 
 void		feed_new_lst(t_pars *lst, char *env_var, int i);
 
@@ -168,6 +172,7 @@ void		clear_all(t_all *all, char *line);
 
 char		*convert_type_to_str(enum e_type type);
 void		print_debug_lst(t_pars *lst);
+void		ft_exit(int cderr);
 
 // interpreter
 

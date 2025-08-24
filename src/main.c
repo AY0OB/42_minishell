@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 01:11:16 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/23 18:25:44 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/24 21:51:28 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	check_pars(char **line, t_all **all)
 {
 	int	check;
 
-	check = parsing(*line, all[0]->lst);
+	check = parsing(*line, all[0]->lst, *all);
 	if (check == -1)
 	{
 		ft_printf("Alloc error\n");

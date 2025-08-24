@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 23:32:09 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/21 22:09:29 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/24 20:28:07 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,25 @@ static int	feed_lst_token(t_pars **lst, int is_token, int *i)
 	return (0);
 }
 
-int	parsing(char *line, t_pars **lst)
+static void	check_pipe(t_pars **lst, t_all *all)
+{
+	t_pars	*tmp;
+
+	tmp = *lst;
+	while (tmp)
+	{
+		if (tmp->type == T_PIPE)
+		{
+			all->pipe = true;
+			return ;
+		}
+		else
+			all->pipe = false;
+		tmp = tmp->next;
+	}
+}
+
+int	parsing(char *line, t_pars **lst, t_all *all)
 {
 	int		i;
 	int		is_token;
@@ -61,8 +79,9 @@ int	parsing(char *line, t_pars **lst)
 			if (feed_lst_token(lst, is_token, &i) == -1)
 				return (-1);
 	}
-	pars_env(lst);
+	pars_env(lst, all);
 	if (here_doc(lst) == -1)
 		return (1);
+	check_pipe(lst, all);
 	return (0);
 }
