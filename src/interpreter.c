@@ -14,23 +14,25 @@
 
 static t_command	*parse_single_command(t_pars **token_stream);
 
-t_command	*interpreter(t_pars **tokens)
+t_command	**interpreter(t_pars **tokens)
 {
 	t_pars		*current_token;
-	t_command	*cmd_list_head;
-	t_command	*new_cmd;
+	t_command	**cmd_list_head;
 
-	current_token = *tokens;
 	cmd_list_head = NULL;
+	cmd_list_head = malloc(sizeof(t_command *));
+	*cmd_list_head = NULL;
+	current_token = *tokens;
 	while (current_token)
 	{
-		new_cmd = parse_single_command(&current_token);
-		if (!new_cmd)
+		//new_cmd = parse_single_command(&current_token);
+		//if (!new_cmd)
+		if (add_command_back(cmd_list_head, parse_single_command(&current_token)) == -1)
 		{
 			free_command_list(cmd_list_head);
 			return (NULL);
 		}
-		add_command_back(&cmd_list_head, new_cmd);
+		//add_command_back(&cmd_list_head, new_cmd);
 		if (current_token && current_token->type == T_PIPE)
 			current_token = current_token->next;
 	}

@@ -31,19 +31,20 @@ t_command	*last_command(t_command *lst)
 	return (lst);
 }
 
-void	add_command_back(t_command **list, t_command *new)
+int	add_command_back(t_command **list, t_command *new)
 {
 	t_command	*last;
 
 	if (!list || !new)
-		return ;
+		return (-1);
 	if (*list == NULL)
 	{
 		*list = new;
-		return ;
+		return (0);
 	}
 	last = last_command(*list);
 	last->next = new;
+	return (0);
 }
 
 void	free_argv(char **argv)
@@ -61,14 +62,14 @@ void	free_argv(char **argv)
 	free(argv);
 }
 
-void	free_command_list(t_command *cmd_list)
+void	free_command_list(t_command **cmd_list)
 {
 	t_command	*current;
 	t_command	*next_node;
 
 	if (!cmd_list)
 		return ;
-	current = cmd_list;
+	current = *cmd_list;
 	while (current)
 	{
 		next_node = current->next;
@@ -80,4 +81,5 @@ void	free_command_list(t_command *cmd_list)
 		free(current);
 		current = next_node;
 	}
+	free(cmd_list);
 }

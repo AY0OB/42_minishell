@@ -14,26 +14,26 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 
-static int	execute_single_builtin(t_command *cmd, t_all *all);
+static int	execute_single_builtin(t_command **cmd, t_all *all);
 static int	execute_pipeline(t_command *cmd_list, char **envp,
 				t_all *all, int in_fd);
 static int	wait_for_children(int last_pid);
 
-int	executor(t_command *cmd_list, char **envp, t_all *all)
+int	executor(t_command **cmd_list, char **envp, t_all *all)
 {
-	if (!cmd_list || !cmd_list->argv || !cmd_list->argv[0])
+	if (!cmd_list[0] || !cmd_list[0]->argv || !cmd_list[0]->argv[0])
 		return (0);
-	if (cmd_list->next == NULL && is_builtin(cmd_list->argv[0]))
+	if (cmd_list[0]->next == NULL && is_builtin(cmd_list[0]->argv[0]))
 	{
 		return (execute_single_builtin(cmd_list, all));
 	}
 	else
 	{
-		return (execute_pipeline(cmd_list, envp, all, STDIN_FILENO));
+		return (execute_pipeline(*cmd_list, envp, all, STDIN_FILENO));
 	}
 }
 
-static int	execute_single_builtin(t_command *cmd, t_all *all)
+static int	execute_single_builtin(t_command **cmd, t_all *all)
 {
 	int	original_stdin;
 	int	original_stdout;

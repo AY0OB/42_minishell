@@ -29,23 +29,32 @@ static int	is_numeric(const char *str)
 	return (1);
 }
 
-int	builtin_exit(char **argv, t_all *all)
+static void	builtin_exit_bis(char *str, t_all *all, t_command **cmd)
+{
+	long long	exit_code;
+
+	if (!str)
+	{
+		exit_code = all->last_exit_status;
+		clear_all(all, NULL);
+		free_command_list(cmd);
+		exit(exit_code);
+	}
+}
+
+int	builtin_exit(char **argv, t_all *all, t_command **cmd)
 {
 	long long	exit_code;
 
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
-	if (!argv[1])
-	{
-		exit_code = all->last_exit_status;
-		clear_all(all, NULL);
-		exit(exit_code);
-	}
+	builtin_exit_bis(argv[1], all, cmd);
 	if (!is_numeric(argv[1]))
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(argv[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
 		clear_all(all, NULL);
+		free_command_list(cmd);
 		exit(255);
 	}
 	if (argv[2])
@@ -55,5 +64,6 @@ int	builtin_exit(char **argv, t_all *all)
 	}
 	exit_code = ft_atoi(argv[1]);
 	clear_all(all, NULL);
+	free_command_list(cmd);
 	exit((unsigned char)exit_code);
 }

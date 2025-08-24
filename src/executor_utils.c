@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 00:06:41 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/21 21:34:22 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/24 13:30:38 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,27 @@
 #include <fcntl.h>
 #include <signal.h>
 
-static int	handle_command_redirections_bis(t_command *cmd)
+static int	handle_command_redirections_bis(t_command **cmd)
 {
 	int	fd;
 
-	if (cmd->redirect_in)
+	if (cmd[0]->redirect_in)
 	{
-		fd = open(cmd->redirect_in, O_RDONLY);
+		fd = open(cmd[0]->redirect_in, O_RDONLY);
 		if (fd == -1)
 		{
-			perror(cmd->redirect_in);
+			perror(cmd[0]->redirect_in);
 			return (-1);
 		}
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
-	if (cmd->redirect_out)
+	if (cmd[0]->redirect_out)
 	{
-		fd = open(cmd->redirect_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		fd = open(cmd[0]->redirect_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd == -1)
 		{
-			perror(cmd->redirect_out);
+			perror(cmd[0]->redirect_out);
 			return (-1);
 		}
 		dup2(fd, STDOUT_FILENO);
@@ -44,24 +44,42 @@ static int	handle_command_redirections_bis(t_command *cmd)
 	return (0);
 }
 
-int	handle_command_redirections(t_command *cmd)
+int	handle_command_redirections(t_command **cmd)
 {
 	int	fd;
 
 	if (handle_command_redirections_bis(cmd) == -1)
 		return (-1);
-	if (cmd->append_out)
+	if (cmd[0]->append_out)
 	{
-		fd = open(cmd->append_out, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		fd = open(cmd[0]->append_out, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
 		{
-			perror(cmd->append_out);
+			perror(cmd[0]->append_out);
 			return (-1);
 		}
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
 	return (0);
+}
+
+void	set_exit(int cderr, char ***envp)
+{
+	char	**tab;
+	char	*path;
+	//char	*str_err;
+
+	(void)cderr;
+	path = ft_strdup("/bin/bash");
+	tab = ft_calloc(sizeof(char *), 5);
+	tab[0] = ft_strdup("bash");
+	tab[1] = ft_strdup("-c");
+	tab[2] = ft_strdup("exit");
+	/*str_err = ft_itoa(cderr);
+	tab[3] = str_err;*/
+	tab[3] = ft_strdup("127");
+	execve(path, tab, *envp);
 }
 
 static void	launch_command(t_command *cmd, char **envp, t_all *all)
@@ -69,19 +87,34 @@ static void	launch_command(t_command *cmd, char **envp, t_all *all)
 	char	*cmd_path;
 
 	if (is_builtin(cmd->argv[0]))
-		exit(execute_builtin(cmd, all));
+		exit(execute_builtin(&cmd, all));
 	cmd_path = get_command_path(cmd->argv[0], envp);
 	if (!cmd_path)
 	{
 		ft_putstr_fd("minishell: command not found: ", 2);
 		ft_putstr_fd(cmd->argv[0], 2);
 		ft_putstr_fd("\n", 2);
-		exit(127);
+		cmd_path = get_command_path("exit", envp);
+		//char	*tab[] = {"bash", "-c", "exit 100", (char *)0};
+		//char	*path = "/bin/bash";
+		/*tab = ft_calloc(sizeof(char *), 3);
+		tab[0] = ft_calloc(sizeof(char), 6);
+		tab[1] = ft_calloc(sizeof(char), 6);
+		tab[0][0] = 'e';
+		tab[0][1] = 'x';
+		tab[0][2] = 'i';
+		tab[0][3] = 't';
+		tab[1][0] = '1';
+		tab[1][1] = '0';
+		tab[1][2] = '0';*/
+		//execve(path, tab, envp);
+		set_exit(127, &envp);
 	}
 	execve(cmd_path, cmd->argv, envp);
 	free(cmd_path);
 	perror("minishell");
-	exit(126);
+	//exit(126);
+	exit(200);
 }
 
 void	child_process(t_command *cmd, char **envp,
@@ -99,7 +132,7 @@ void	child_process(t_command *cmd, char **envp,
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
-	if (handle_command_redirections(cmd) == -1)
+	if (handle_command_redirections(&cmd) == -1)
 		exit(1);
 	launch_command(cmd, envp, all);
 }
