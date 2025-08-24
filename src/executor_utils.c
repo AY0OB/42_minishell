@@ -15,27 +15,27 @@
 #include <fcntl.h>
 #include <signal.h>
 
-static int	handle_command_redirections_bis(t_command **cmd)
+static int	handle_command_redirections_bis(t_command *cmd)
 {
 	int	fd;
 
-	if (cmd[0]->redirect_in)
+	if (cmd->redirect_in)
 	{
-		fd = open(cmd[0]->redirect_in, O_RDONLY);
+		fd = open(cmd->redirect_in, O_RDONLY);
 		if (fd == -1)
 		{
-			perror(cmd[0]->redirect_in);
+			perror(cmd->redirect_in);
 			return (-1);
 		}
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
-	if (cmd[0]->redirect_out)
+	if (cmd->redirect_out)
 	{
-		fd = open(cmd[0]->redirect_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		fd = open(cmd->redirect_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd == -1)
 		{
-			perror(cmd[0]->redirect_out);
+			perror(cmd->redirect_out);
 			return (-1);
 		}
 		dup2(fd, STDOUT_FILENO);
@@ -44,18 +44,18 @@ static int	handle_command_redirections_bis(t_command **cmd)
 	return (0);
 }
 
-int	handle_command_redirections(t_command **cmd)
+int	handle_command_redirections(t_command *cmd)
 {
 	int	fd;
 
 	if (handle_command_redirections_bis(cmd) == -1)
 		return (-1);
-	if (cmd[0]->append_out)
+	if (cmd->append_out)
 	{
-		fd = open(cmd[0]->append_out, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		fd = open(cmd->append_out, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
 		{
-			perror(cmd[0]->append_out);
+			perror(cmd->append_out);
 			return (-1);
 		}
 		dup2(fd, STDOUT_FILENO);
@@ -87,7 +87,7 @@ static void	launch_command(t_command *cmd, char **envp, t_all *all)
 	char	*cmd_path;
 
 	if (is_builtin(cmd->argv[0]))
-		exit(execute_builtin(&cmd, all));
+		exit(execute_builtin(cmd, all));
 	cmd_path = get_command_path(cmd->argv[0], envp);
 	if (!cmd_path)
 	{
@@ -132,7 +132,7 @@ void	child_process(t_command *cmd, char **envp,
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
-	if (handle_command_redirections(&cmd) == -1)
+	if (handle_command_redirections(cmd) == -1)
 		exit(1);
 	launch_command(cmd, envp, all);
 }

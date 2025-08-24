@@ -60,10 +60,10 @@ static int	do_prog(char **line, t_all **all,
 			return (-1);
 		if (check == 0)
 		{
-			commands = interpreter((all[0]->lst));
-			if (commands)
-				all[0]->last_exit_status = executor(commands, *envp, *all);
-			free_command_list(commands);
+			*commands = interpreter((all[0]->lst));
+			if (*commands)
+				all[0]->last_exit_status = executor(*commands, *envp, *all);
+			free_command_list(*commands);
 		}
 		if (do_prog_bis(line, all) == -1)
 			return (-1);
@@ -80,22 +80,21 @@ int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	t_all		*all;
-	t_command	**commands;
+	t_command	*commands;
 	int			exit_code;
 	int			check;
 
 	(void)argc;
 	(void)argv;
-	commands = NULL;	
 	all = set_struct();
 	if (!all)
 		return (-1);
 	all->env_list = init_environment(envp);
 	setup_interactive_mode();
-	check = do_prog(&line, &all, commands, &envp);
+	check = do_prog(&line, &all, &commands, &envp);
 	while (check == 0)
 	{
-		check = do_prog(&line, &all, commands, &envp);
+		check = do_prog(&line, &all, &commands, &envp);
 	}
 	if (check == -1)
 		return (-1);

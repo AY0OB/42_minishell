@@ -29,7 +29,7 @@ static int	is_numeric(const char *str)
 	return (1);
 }
 
-static void	builtin_exit_bis(char *str, t_all *all, t_command **cmd)
+static void	builtin_exit_bis(char *str, t_all *all, t_command *cmd)
 {
 	long long	exit_code;
 
@@ -42,7 +42,7 @@ static void	builtin_exit_bis(char *str, t_all *all, t_command **cmd)
 	}
 }
 
-int	builtin_exit(char **argv, t_all *all, t_command **cmd)
+int	builtin_exit(char **argv, t_all *all, t_command *cmd)
 {
 	long long	exit_code;
 

@@ -171,7 +171,7 @@ void		print_debug_lst(t_pars *lst);
 
 // interpreter
 
-t_command	**interpreter(t_pars **token);
+t_command	*interpreter(t_pars **token);
 int			handle_redirection(t_command *cmd, t_pars **token_ptr);
 char		**words_to_argv(t_list *word_list);
 t_command	*new_command(void);
@@ -184,12 +184,12 @@ void		print_argv(char **argv);
 //utils
 t_command	*last_command(t_command *lst);
 int			add_command_back(t_command **list, t_command *new);
-void		free_command_list(t_command **cmd_list);
+void		free_command_list(t_command *cmd_list);
 void		free_argv(char **argv);
 
 //executor
-int			executor(t_command **cmd_list, char **envp, t_all *all);
-int			handle_command_redirections(t_command **cmd);
+int			executor(t_command *cmd_list, char **envp, t_all *all);
+int			handle_command_redirections(t_command *cmd);
 int			execute_pipeline_check(t_command *cmd_list,
 				int pipefd[2], pid_t *last_pid);
 void		execute_pipeline_fd(t_command *cmd_list, int pipefd[2], int *in_fd);
@@ -200,14 +200,14 @@ void		child_process(t_command *cmd, char **envp,
 char		*get_command_path(char *cmd, char **envp);
 
 //builtins
-int			execute_builtin(t_command **cmd, t_all *all);
+int			execute_builtin(t_command *cmd, t_all *all);
 int			is_builtin(char *cmd_name);
 int			builtin_unset(char **argv, t_list **env_list_ptr);
 int			builtin_pwd(void);
 int			builtin_echo(char **argv, int exit_code);
 int			builtin_cd(char **argv, t_all *all);
 int			builtin_env(t_list *env_list);
-int			builtin_exit(char **argv, t_all *all, t_command **cmd);
+int			builtin_exit(char **argv, t_all *all, t_command *cmd);
 
 //env
 t_list		*init_environment(char **envp);
