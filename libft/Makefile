@@ -28,7 +28,6 @@ $(NAME) : $(OBJ)
 #	$(AR) $@ $^
 
 #---------------------
-# Dégueu et relink inutilement ie : Si un .c est modifié alors on recompile tous les autes
 
 #$(OBJ) : $(SRC)
 #	$(CC) $(CFLAGS) -c $^
