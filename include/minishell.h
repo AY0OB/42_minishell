@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 03:57:51 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/24 20:31:10 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/27 11:35:56 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,8 @@ int			set_int_dquote(t_pars *lst, char *line, int i, int j);
 int			*tmp_index(int i);
 int			even_nb(int nb);
 
+void		pars_exitcode(t_pars **lst, int exitcode);
+
 void		pars_env(t_pars **lst, t_all *all);
 int			add_env(t_pars *lst, char *env_var, t_env *info);
 char		*ft_getenv(char *env_name, t_list *env_list);
@@ -178,6 +180,7 @@ void		ft_exit(int cderr);
 
 t_command	*interpreter(t_pars **token);
 int			handle_redirection(t_command *cmd, t_pars **token_ptr);
+void		handle_redirection_bis(t_command *cmd, enum e_type type);
 char		**words_to_argv(t_list *word_list);
 t_command	*new_command(void);
 

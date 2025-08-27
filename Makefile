@@ -19,6 +19,7 @@ SRCS = 	src/main.c \
 		src/parsing_content_tab.c \
 		src/parsing_content_tab_bis.c \
 		src/parsing_env.c \
+		src/parsing_exitcode.c \
 		src/parsing_env_bis.c \
 		src/parsing_env_bis2.c \
 		src/parsing_env_bis2_utils.c \
@@ -38,6 +39,7 @@ SRCS = 	src/main.c \
 		src/print_debug_lst.c \
 		src/convert_type_to_str.c \
 		src/interpreter.c \
+		src/interpreter_bis.c \
 		src/command_utils.c \
 		src/command_utils_bis.c \
 		src/debug_command_print.c \

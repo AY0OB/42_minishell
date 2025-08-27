@@ -94,7 +94,8 @@ static void	launch_command(t_command *cmd, char **envp, t_all *all)
 	char	*cmd_path;
 
 	if (is_builtin(cmd->argv[0]))
-		ft_exit(execute_builtin(cmd, all));
+		//ft_exit(execute_builtin(cmd, all));
+		exit(execute_builtin(cmd, all));
 	cmd_path = get_command_path(cmd->argv[0], envp);
 	if (!cmd_path)
 		ft_exit(127);

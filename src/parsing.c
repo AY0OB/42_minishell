@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 23:32:09 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/24 20:28:07 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/26 15:52:49 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,10 @@ int	parsing(char *line, t_pars **lst, t_all *all)
 			if (feed_lst_token(lst, is_token, &i) == -1)
 				return (-1);
 	}
+	check_pipe(lst, all);
 	pars_env(lst, all);
+	pars_exitcode(lst, all->last_exit_status);
 	if (here_doc(lst) == -1)
 		return (1);
-	check_pipe(lst, all);
 	return (0);
 }

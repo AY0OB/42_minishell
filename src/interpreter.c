@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 01:07:31 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/24 20:23:28 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/27 11:36:07 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	handle_redirection(t_command *cmd, t_pars **token_ptr)
 	if (redir_type != T_HEREDOC)
 		*token_ptr = (*token_ptr)->next;
 	filename_token = *token_ptr;
+	handle_redirection_bis(cmd, redir_type);
 	if (redir_type == T_REDIR_OUT)
 		cmd->redirect_out = ft_strdup(filename_token->content);
 	else if (redir_type == T_REDIR_IN)
