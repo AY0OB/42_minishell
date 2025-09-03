@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 15:36:16 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/26 16:31:15 by amairia          ###   ########.fr       */
+/*   Updated: 2025/09/02 20:24:10 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,23 @@ static void	check_env(t_pars *lst, int exitcode)
 	}
 }
 
-void	pars_exitcode(t_pars **lst, int exitcode)
+void	pars_exitcode(t_pars **lst, int exitcode, int pipe_done)
 {
 	t_pars	*lst_tmp;
+	int		curr_done;
 
 	lst_tmp = *lst;
+	curr_done = 0;
+	while (lst_tmp && curr_done < pipe_done)
+	{
+		if (lst_tmp->type == T_PIPE)
+			curr_done++;
+		lst_tmp = lst_tmp->next;
+	}
 	while (lst_tmp)
 	{
-		/*if (lst_tmp->type == T_PIPE)
-			break ;*/
+		if (lst_tmp->type == T_PIPE)
+			break ;
 		if (lst_tmp->tab)
 		{
 			check_env(lst_tmp, exitcode);

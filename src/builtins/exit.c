@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 23:40:18 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/30 17:07:53 by amairia          ###   ########.fr       */
+/*   Updated: 2025/09/01 20:51:47 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@ static int	is_numeric(const char *str)
 
 static void	exit_bis(t_all *all, char **argv, int exitcode)
 {
+	if (argv)
+		free(argv);
+	close(all->data.og_in);
+	close(all->data.og_out);
 	clear_all(all, NULL);
-	free(argv);
 	exit(exitcode);
 }
 

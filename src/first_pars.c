@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 01:06:27 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/20 01:06:29 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/30 18:39:30 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int	first_pars(char *line, int i)
 			|| (is_token == 5 && prev_is_token == 5))
 		{
 			error_msg(is_token);
-			free(line);
 			return (-1);
 		}
 		skip_token(line, &i, is_token);

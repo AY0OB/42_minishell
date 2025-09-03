@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 23:50:37 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/24 20:23:02 by amairia          ###   ########.fr       */
+/*   Updated: 2025/08/30 21:13:57 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	clear_all(t_all *all, char *line)
 		return ;
 	pars_lstclear(all);
 	ft_lstclear(&all->env_list, free_env_var);
-	clear_history();
+	rl_clear_history();
 	if (all)
 		free(all);
 }

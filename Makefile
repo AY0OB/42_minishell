@@ -38,6 +38,7 @@ SRCS = 	src/main.c \
 		src/pars_lstsize.c \
 		src/executor.c \
 		src/executor_bis.c \
+		src/executor_pipe.c \
 		src/path_finder.c \
 		src/signals.c \
 		src/builtins/pwd.c \

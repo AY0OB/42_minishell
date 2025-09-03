@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 23:32:09 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/28 18:07:16 by amairia          ###   ########.fr       */
+/*   Updated: 2025/09/02 20:33:36 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ static void	add_typefile(t_pars **lst_all)
 	lst = *lst_all;
 	while (lst)
 	{
-		if (lst->type == T_APPEND || lst->type == T_REDIR_IN || lst->type == T_REDIR_OUT)
+		if (lst->type == T_APPEND || lst->type == T_REDIR_IN
+			|| lst->type == T_REDIR_OUT)
 			lst->next->type = T_FILE;
 		lst = lst->next;
 	}
@@ -94,7 +95,7 @@ int	parsing(char *line, t_pars **lst, t_all *all)
 	}
 	check_pipe(lst, all);
 	pars_env(lst, all);
-	pars_exitcode(lst, all->last_exit_status);
+	pars_exitcode(lst, all->last_exit_status, 0);
 	if (here_doc(lst) == -1)
 		return (1);
 	add_typefile(lst);

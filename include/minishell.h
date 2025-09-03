@@ -6,7 +6,7 @@
 /*   By: rolavale <rolavale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 03:57:51 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/30 17:04:03 by amairia          ###   ########.fr       */
+/*   Updated: 2025/09/03 15:59:13 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,10 @@ typedef struct s_pars
 
 typedef struct s_data
 {
+	int	pipe_done;
+	int	nb_pipeline;
+	int	og_in;
+	int	og_out;
 	int	std_in;
 	int	std_out;
 }				t_data;
@@ -72,6 +76,7 @@ typedef struct s_all
 	bool	pipe;
 	int		last_exit_status;
 	bool	faile_open;
+	bool	is_builtin;
 }				t_all;
 
 typedef struct s_content
@@ -135,7 +140,7 @@ int			set_int_dquote(t_pars *lst, char *line, int i, int j);
 int			*tmp_index(int i);
 int			even_nb(int nb);
 
-void		pars_exitcode(t_pars **lst, int exitcode);
+void		pars_exitcode(t_pars **lst, int exitcode, int pipe_done);
 
 void		pars_env(t_pars **lst, t_all *all);
 int			add_env(t_pars *lst, char *env_var, t_env *info);
@@ -176,7 +181,9 @@ char		*get_command_path(char *cmd, char **envp);
 //executor
 int			executor(char **envp, t_all *all);
 void		set_redirections(t_pars *lst, t_all *all, char **envp);
+void		set_redirections_pipe(t_all *all, char **envp);
 int			trytoopen(t_pars *lst, t_all *all, int fd);
+void		clear_fd(t_all *all);
 int			check_redir(enum e_type type);
 char		**feed_cmd(t_all *all);
 

@@ -6,11 +6,25 @@
 /*   By: rolavale <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:15:47 by rolavale          #+#    #+#             */
-/*   Updated: 2025/08/29 16:45:59 by amairia          ###   ########.fr       */
+/*   Updated: 2025/09/03 15:58:33 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	clear_fd(t_all *all)
+{
+	if (all->data.std_in != 0)
+	{
+		close(all->data.std_in);
+		all->data.std_in = 0;
+	}
+	if (all->data.std_out != 1)
+	{
+		close(all->data.std_out);
+		all->data.std_out = 1;
+	}
+}
 
 void	closeifopen(t_all *all, int check)
 {
@@ -99,12 +113,20 @@ char	**feed_cmd(t_all *all)
 {
 	char	**cmd;
 	int		i;
+	int		curr_done;
 	t_pars	*lst;
 
 	lst = *(all->lst);
 	cmd = ft_calloc(sizeof(char *), pars_lstsize(lst) + 1);
 	if (!cmd)
 		return (NULL);
+	curr_done = 0;
+	while (lst && curr_done < all->data.pipe_done)
+	{
+		if (lst->type == T_PIPE)
+			curr_done++;
+		lst = lst->next;
+	}
 	i = 0;
 	while (lst && lst->type != T_PIPE)
 	{
@@ -117,7 +139,7 @@ char	**feed_cmd(t_all *all)
 
 void	builtin(t_all *all)
 {
-	int	exitcode;
+	int		exitcode;
 	char	**cmd;
 
 	cmd = feed_cmd(all);
@@ -133,31 +155,19 @@ void	builtin(t_all *all)
 
 void	dup_redir_built(t_all *all)
 {
-	int	og_in;
-	int	og_out;
-
-	og_in = dup(STDIN_FILENO);
-	og_out = dup(STDOUT_FILENO);
+	all->data.og_in = dup(STDIN_FILENO);
+	all->data.og_out = dup(STDOUT_FILENO);
 	if (all->data.std_in != 0)
 		dup2(all->data.std_in, STDIN_FILENO);
 	if (all->data.std_out != 1)
 		dup2(all->data.std_out, STDOUT_FILENO);
 	builtin(all);
 	all->faile_open = false;
-	dup2(og_in, STDIN_FILENO);
-	dup2(og_out, STDOUT_FILENO);
-	close(og_in);
-	close(og_out);
-	if (all->data.std_in != 0)
-	{
-		close(all->data.std_in);
-		all->data.std_in = 0;
-	}
-	if (all->data.std_out != 1)
-	{
-		close(all->data.std_out);
-		all->data.std_out = 1;
-	}
+	dup2(all->data.og_in, STDIN_FILENO);
+	dup2(all->data.og_out, STDOUT_FILENO);
+	close(all->data.og_in);
+	close(all->data.og_out);
+	clear_fd(all);
 }
 
 void	set_redirections_built(t_pars *lst, t_all *all)
@@ -169,16 +179,7 @@ void	set_redirections_built(t_pars *lst, t_all *all)
 			if (trytoopen(lst, all, 0) == -1)
 			{
 				all->faile_open = true;
-				if (all->data.std_in != 0)
-				{
-					close(all->data.std_in);
-					all->data.std_in = 0;
-				}
-				if (all->data.std_out != 1)
-				{
-					close(all->data.std_out);
-					all->data.std_out = 1;
-				}
+				clear_fd(all);
 				all->last_exit_status = 1;
 				return ;
 			}
@@ -213,7 +214,7 @@ int	executor(char **envp, t_all *all)
 		set_redirections_built(*(all->lst), all);
 	else if (all->pipe == false)
 		set_redirections(*(all->lst), all, envp);
-	//else
-		//simple_command();
+	else
+		set_redirections_pipe(all, envp);
 	return (0);
 }

@@ -6,12 +6,11 @@
 /*   By: rolavale <rolavale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 01:11:16 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/30 16:16:30 by amairia          ###   ########.fr       */
+/*   Updated: 2025/09/01 20:04:07 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-#include <signal.h>
 
 static int	check_pars(char **line, t_all **all)
 {
@@ -55,18 +54,17 @@ static int	do_prog(char *line, t_all **all,
 	{
 		check = check_pars(&line, all);
 		if (check == -1)
-		{
-			all[0]->last_exit_status = 2;
 			return (-1);
-		}
 		if (check == 0)
 			executor(*envp, *all);
-		else
+		if (check == 1)
 			all[0]->last_exit_status = 130;
 		if (do_prog_bis(all) == -1)
 			return (-1);
 		setup_interactive_mode();
 	}
+	else
+		all[0]->last_exit_status = 2;
 	free(line);
 	return (0);
 }
