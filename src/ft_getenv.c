@@ -28,24 +28,6 @@ static bool	ft_tofind(char *str, char *to_find)
 	return (true);
 }
 
-static int	size_envvar(char *str)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (str[i] && str[i] != '=')
-		i++;
-	i += 2;
-	while (str[i] && str[i] != '"')
-	{
-		i++;
-		j++;
-	}
-	return (j);
-}
-
 char	*ft_fill_env(char *content)
 {
 	int		i;
@@ -54,18 +36,19 @@ char	*ft_fill_env(char *content)
 
 	i = 0;
 	j = 0;
-	env_content = ft_calloc(sizeof(char), size_envvar(content) + 1);
+	env_content = ft_calloc(sizeof(char), ft_strlen(content) + 1);
 	if (!env_content)
 		return (NULL);
 	while (content[j] != '=')
 		j++;
 	j += 2;
-	while (content[j] && content[j] != '"')
+	while (content[j])
 	{
 		env_content[i] = content[j];
 		i++;
 		j++;
 	}
+	env_content[i - 1] = '\0';
 	return (env_content);
 }
 
@@ -86,7 +69,11 @@ char	*ft_getenv(char *env_name, t_list *env_list)
 	int		i;
 
 	i = 0;
+	if (!env_name)
+		return (NULL);
 	array = env_list_to_array(env_list, ft_lstsize(env_list));
+	if (!array)
+		return (NULL);
 	while (array[i])
 	{
 		if (array[i][0] == env_name[0])

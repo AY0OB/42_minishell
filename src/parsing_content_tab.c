@@ -48,7 +48,7 @@ static int	*set_tab_size(char *line, int i, int *in_quote, char *quote)
 		*quote = ' ';
 		set_index_bis(line, tmp_index(i), &size, false);
 	}
-	tab = ft_calloc(sizeof(int), even_nb(size) + 2);
+	tab = ft_calloc(sizeof(int), even_nb(size) * 2 + 2);
 	return (tab);
 }
 

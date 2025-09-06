@@ -109,10 +109,13 @@ int	add_env(t_pars *lst, char *env_var, t_env *info)
 	{
 		n_content = feed_new_content(lst->content, env_var, info->i,
 				info->end_quote);
+		if (!n_content)
+			return (0);
 		incr_tab(lst, n_content, info->i, info->len_base);
 		free(lst->content);
 		lst->content = n_content;
-		free(env_var);
+		if (env_var)
+			free(env_var);
 		return (0);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: rolavale <rolavale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 03:57:51 by amairia           #+#    #+#             */
-/*   Updated: 2025/09/03 15:59:13 by amairia          ###   ########.fr       */
+/*   Updated: 2025/09/05 16:56:24 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 
 # define HD_END	"minishell : warning: here-document \
 delimited by end-of-file (wanted '%s')\n"
+
+extern int	g_check_ctrlc;
 
 enum e_type
 {
@@ -52,6 +54,12 @@ typedef struct s_pars
 	struct s_pars	*prev;
 }				t_pars;
 
+typedef struct s_pipe_info
+{
+	int	last_fd;
+	int	pipe_fd[2];
+}				t_pipe_info;
+
 typedef struct s_data
 {
 	int	pipe_done;
@@ -70,13 +78,17 @@ typedef struct s_env_var
 
 typedef struct s_all
 {
-	t_pars	**lst;
-	t_data	data;
-	t_list	*env_list;
-	bool	pipe;
-	int		last_exit_status;
-	bool	faile_open;
-	bool	is_builtin;
+	t_pars		**lst;
+	t_data		data;
+	t_pipe_info	pipe_info;
+	t_list		*env_list;
+	bool		pipe;
+	int			last_exit_status;
+	bool		faile_open;
+	bool		is_builtin;
+	pid_t		*tab_pid;
+	bool		tab_pid_check;
+	int			i_pid;
 }				t_all;
 
 typedef struct s_content
@@ -158,8 +170,8 @@ void		modif_env(char *env, int *i);
 char		*set_char(int i, int j);
 void		set_new_lst(t_pars **lst, t_pars **new, char *env_var, int i);
 
-int			here_doc(t_pars **lst);
-void		check_env_hd(char **line);
+int			here_doc(t_pars **lst, t_list *env_list);
+void		check_env_hd(char **line, t_list *env_list);
 void		clear_doc_stop(t_pars *lst);
 int			aff_ctrld(char *doc_stop);
 void		hd_ctrlc(int sig);
@@ -176,23 +188,37 @@ void		ft_exit(int cderr);
 void		free_argv(char **argv);
 
 //pathfinder
-char		*get_command_path(char *cmd, char **envp);
+char		*get_command_path(char *cmd, t_list *env_list);
 
 //executor
-int			executor(char **envp, t_all *all);
-void		set_redirections(t_pars *lst, t_all *all, char **envp);
-void		set_redirections_pipe(t_all *all, char **envp);
+int			executor(t_all *all);
+void		set_redirections(t_pars *lst, t_all *all);
+void		set_redirections_pipe(t_all *all);
 int			trytoopen(t_pars *lst, t_all *all, int fd);
+int			check_redir(enum e_type type);
 void		clear_fd(t_all *all);
 int			check_redir(enum e_type type);
 char		**feed_cmd(t_all *all);
+void		ft_execve(t_all *all, char **cmd_path, char ***cmd);
+void		builtin(t_all *all);
+void		dup_redir_built(t_all *all);
+int			set_redirections_pipe_bis(t_all *all);
+void		set_pipe_fd(t_all *all);
+void		dup_redir_pipe(t_all *all);
+int			set_cmd_pipe(t_all *all, char ***cmd, char **cmd_path);
+t_pars		*set_lst_place(t_all *all);
+void		check_faile_and_exec(t_all *all);
+void		exec_pipe(t_all *all);
+void		redir_dup_exec_check_fork(t_all *all, char **cmd, pid_t *pid);
+void		exec_cmd(t_all *all, char **cmd, char *cmd_path);
+int			free_and_close(t_all *all, char ***cmd);
 
 //builtins
-int			execute_builtin(char **cmd, t_all *all);
+int			execute_builtin(char **cmd, t_all *all, int exitcode);
 int			is_builtin(char *cmd_name);
 int			builtin_unset(char **cmd, t_list **env_list_ptr);
 int			builtin_pwd(void);
-int			builtin_echo(char **cmd, int exit_code);
+int			builtin_echo(char **cmd);
 int			builtin_cd(char **cmd, t_all *all);
 int			builtin_env(t_list *env_list);
 int			builtin_exit(char **argv, t_all *all);
@@ -202,11 +228,12 @@ t_list		*init_environment(char **envp);
 void		free_env_var(void *env_var_ptr);
 void		print_env_var(void *env_var_ptr);
 t_list		*find_env_var(t_list *env_list, const char *key);
+char		**ft_get_env_array(t_list *env_list);
 
 //export
-int			builtin_export(char **cmd, t_list **env_list_ptr);
+int			builtin_export(char **cmd, t_list **env_list_ptr, t_all *all);
 void		print_sorted_env(char **array);
-t_env_var	*split_env_var(const char *arg);
+t_env_var	*split_env_var(const char *arg, t_all *all);
 void		env_list_to_array_bis(t_env_var *var,
 				char ***array, char **tmp, int i);
 

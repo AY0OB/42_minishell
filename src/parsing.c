@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 23:32:09 by amairia           #+#    #+#             */
-/*   Updated: 2025/09/02 20:33:36 by amairia          ###   ########.fr       */
+/*   Updated: 2025/09/03 21:48:07 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	parsing(char *line, t_pars **lst, t_all *all)
 	check_pipe(lst, all);
 	pars_env(lst, all);
 	pars_exitcode(lst, all->last_exit_status, 0);
-	if (here_doc(lst) == -1)
+	if (here_doc(lst, all->env_list) == -1)
 		return (1);
 	add_typefile(lst);
 	return (0);

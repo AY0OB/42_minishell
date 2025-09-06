@@ -33,10 +33,23 @@ static void	exit_bis(t_all *all, char **argv, int exitcode)
 {
 	if (argv)
 		free(argv);
+	dup2(all->data.og_in, STDIN_FILENO);
+	dup2(all->data.og_out, STDOUT_FILENO);
 	close(all->data.og_in);
 	close(all->data.og_out);
+	clear_fd(all);
+	if (!all->pipe)
+		ft_putstr_fd("exit\n", STDOUT_FILENO);
 	clear_all(all, NULL);
 	exit(exitcode);
+}
+
+static void	redir_built_base(t_all *all)
+{
+	dup2(all->data.og_in, STDIN_FILENO);
+	dup2(all->data.og_out, STDOUT_FILENO);
+	close(all->data.og_in);
+	close(all->data.og_out);
 }
 
 int	builtin_exit(char **argv, t_all *all)
@@ -44,8 +57,6 @@ int	builtin_exit(char **argv, t_all *all)
 	int	exitcode;
 
 	exitcode = all->last_exit_status;
-	if (!all->pipe)
-		ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (!argv[1])
 		exit_bis(all, argv, exitcode);
 	if (!is_numeric(argv[1]))
@@ -60,6 +71,10 @@ int	builtin_exit(char **argv, t_all *all)
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		if (all->pipe)
 			exit_bis(all, argv, 1);
+		redir_built_base(all);
+		if (!all->pipe)
+			ft_putstr_fd("exit\n", STDOUT_FILENO);
+		clear_fd(all);
 		return (1);
 	}
 	exit_bis(all, argv, ft_atoi(argv[1]));

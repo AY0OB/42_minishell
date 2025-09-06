@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 23:50:37 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/30 21:13:57 by amairia          ###   ########.fr       */
+/*   Updated: 2025/09/04 19:56:47 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ void	clear_all(t_all *all, char *line)
 	if (!all)
 		return ;
 	pars_lstclear(all);
+	if (all->tab_pid_check)
+	{
+		free(all->tab_pid);
+		all->tab_pid_check = false;
+	}
 	ft_lstclear(&all->env_list, free_env_var);
 	rl_clear_history();
 	if (all)

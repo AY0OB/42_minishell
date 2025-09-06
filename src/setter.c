@@ -6,7 +6,7 @@
 /*   By: rolavale <rolavale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 21:39:47 by amairia           #+#    #+#             */
-/*   Updated: 2025/09/02 20:14:35 by amairia          ###   ########.fr       */
+/*   Updated: 2025/09/04 20:05:23 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,17 @@ int	set_list(t_pars ***lst)
 	}
 	**lst = NULL;
 	return (0);
+}
+
+static void	set_data(t_all *all)
+{
+	all->data.std_in = 0;
+	all->data.std_out = 1;
+	all->data.pipe_done = 0;
+	all->data.nb_pipeline = 1;
+	all->pipe_info.last_fd = -1;
+	all->pipe_info.pipe_fd[0] = -1;
+	all->pipe_info.pipe_fd[1] = -1;
 }
 
 t_all	*set_struct(void)
@@ -42,14 +53,13 @@ t_all	*set_struct(void)
 		return (NULL);
 	}
 	all->lst = lst;
-	all->data.std_in = 0;
-	all->data.std_out = 1;
-	all->data.pipe_done = 0;
-	all->data.nb_pipeline = 1;
 	all->last_exit_status = 0;
 	all->pipe = false;
 	all->faile_open = false;
 	all->is_builtin = false;
 	all->env_list = NULL;
+	all->tab_pid = NULL;
+	all->tab_pid_check = false;
+	set_data(all);
 	return (all);
 }

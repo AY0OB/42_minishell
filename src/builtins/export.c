@@ -90,7 +90,7 @@ static int	export_bis(t_env_var *new_var, int *i)
 	return (0);
 }
 
-int	builtin_export(char **argv, t_list **env_list_ptr)
+int	builtin_export(char **argv, t_list **env_list_ptr, t_all *all)
 {
 	t_env_var	*new_var;
 	t_list		*existing_node;
@@ -101,7 +101,7 @@ int	builtin_export(char **argv, t_list **env_list_ptr)
 	i = 1;
 	while (argv[i])
 	{
-		new_var = split_env_var(argv[i]);
+		new_var = split_env_var(argv[i], all);
 		if (export_bis(new_var, &i) == -1)
 			continue ;
 		existing_node = find_env_var(*env_list_ptr, new_var->key);

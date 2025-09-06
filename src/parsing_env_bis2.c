@@ -21,6 +21,8 @@ static char	*next_content(t_pars *lst, int j)
 	if (lst->content[j] == '\0')
 		return (NULL);
 	next_content = ft_calloc(sizeof(char), ft_strlen(lst->content) + 1);
+	if (!next_content)
+		return (NULL);
 	while (lst->content[j])
 		next_content[i++] = lst->content[j++];
 	return (next_content);
@@ -45,7 +47,7 @@ static char	*change_content(t_pars *lst, char *env_var, int *index, int i)
 	new_content = set_char(ft_strlen(env_var) * 5, ft_strlen(lst->content) + 1);
 	j = 0;
 	i_new = 0;
-	while (lst->content[j])
+	while (lst->content[j] && new_content)
 	{
 		if (j == i)
 		{

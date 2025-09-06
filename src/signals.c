@@ -16,6 +16,7 @@
 void	handle_sigint_interactive(int sig)
 {
 	(void)sig;
+	g_check_ctrlc = 130;
 	ft_putchar_fd('\n', STDOUT_FILENO);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -30,6 +31,7 @@ void	newline_signal_handler(int sig)
 
 void	setup_interactive_mode(void)
 {
+	g_check_ctrlc = -1;
 	signal(SIGINT, handle_sigint_interactive);
 	signal(SIGQUIT, SIG_IGN);
 }

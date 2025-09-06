@@ -39,8 +39,8 @@ static void	set_new_lst_bis(t_pars **lst, t_pars **lst_env,
 		(*lst_env)->next = (*new);
 		(*new)->prev = (*lst_env);
 		(*new)->next = (*tmp_next);
-		(*new)->tab = ft_calloc(sizeof(int), ft_strlen((*new)->content) + 1);
-		(*new)->dtab = ft_calloc(sizeof(int), ft_strlen((*new)->content) + 1);
+		(*new)->tab = ft_calloc(sizeof(int), ft_strlen((*new)->content) * 2 + 2);
+		(*new)->dtab = ft_calloc(sizeof(int), ft_strlen((*new)->content) * 2 + 2);
 		if (*tmp_next)
 			(*tmp_next)->prev = (*new);
 	}
@@ -81,7 +81,7 @@ void	set_new_lst(t_pars **lst, t_pars **new, char *env_var, int i)
 		tmp_next->prev = NULL;
 	content = ft_calloc(sizeof(char), ft_strlen(env_var) + 1);
 	j = 0;
-	while (env_var[i])
+	while (env_var[i] && content)
 	{
 		one_space(env_var, &i);
 		content[j++] = env_var[i++];

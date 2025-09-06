@@ -6,7 +6,7 @@
 /*   By: rolavale <rolavale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 10:39:19 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/27 19:00:54 by rolavale         ###   ########.fr       */
+/*   Updated: 2025/09/04 18:24:25 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	*open_tmp_file(void)
 	return (ficname);
 }
 
-static int	feed_fic(char *doc_stop, int fd, bool hdq)
+static int	feed_fic(char *doc_stop, int fd, bool hdq, t_list *env_list)
 {
 	char	*line;
 
@@ -66,7 +66,9 @@ static int	feed_fic(char *doc_stop, int fd, bool hdq)
 		line = readline("> ");
 		if (!line)
 			return (aff_ctrld(doc_stop));
-		if (ft_strncmp("	", line, 2) == 0)
+		if (ft_strncmp("	", line + 1, 2) == 0
+			|| ft_strncmp("	", line, 2) == 0
+			|| ft_strncmp("	", line, 1) == 0)
 		{
 			free(line);
 			return (-1);
@@ -74,7 +76,7 @@ static int	feed_fic(char *doc_stop, int fd, bool hdq)
 		if (ft_strncmp(doc_stop, line, ft_strlen(doc_stop) + 1) == 0)
 			break ;
 		if (!hdq)
-			check_env_hd(&line);
+			check_env_hd(&line, env_list);
 		ft_putstr_fd(line, fd);
 		ft_putchar_fd('\n', fd);
 		free(line);
@@ -83,7 +85,8 @@ static int	feed_fic(char *doc_stop, int fd, bool hdq)
 	return (0);
 }
 
-static int	add_ficname(char *doc_stop, char **ficname, bool hdq)
+static int	add_ficname(char *doc_stop, char **ficname,
+		bool hdq, t_list *env_list)
 {
 	int		fd;
 
@@ -91,7 +94,7 @@ static int	add_ficname(char *doc_stop, char **ficname, bool hdq)
 	if (!ficname[0])
 		return (-1);
 	fd = open(ficname[0], O_TRUNC | O_WRONLY, S_IRWXU);
-	if (feed_fic(doc_stop, fd, hdq) == -1)
+	if (feed_fic(doc_stop, fd, hdq, env_list) == -1)
 	{
 		close(fd);
 		return (-1);
@@ -100,7 +103,7 @@ static int	add_ficname(char *doc_stop, char **ficname, bool hdq)
 	return (0);
 }
 
-int	here_doc(t_pars **lst)
+int	here_doc(t_pars **lst, t_list *env_list)
 {
 	t_pars	*tmp_lst;
 	char	*ficname;
@@ -114,7 +117,7 @@ int	here_doc(t_pars **lst)
 		if (tmp_lst->type == T_HEREDOC)
 		{
 			check = add_ficname(tmp_lst->next->content, &ficname,
-					tmp_lst->next->hdq);
+					tmp_lst->next->hdq, env_list);
 			free(tmp_lst->content);
 			tmp_lst->content = ft_strdup(ficname);
 			clear_doc_stop(tmp_lst);

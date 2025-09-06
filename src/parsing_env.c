@@ -31,9 +31,9 @@ static char	*get_env(char *str, int i, int end_quote, t_all *all)
 	pre_env = ft_calloc(sizeof(char), j + 1);
 	i = i - j;
 	j = 0;
-	if (str[i] == '$')
+	if (pre_env && str[i] == '$')
 		pre_env[j] = str[i];
-	while (str[i] && (str[i] < 9 || str[i] > 13) && str[i] != 32
+	while (pre_env && str[i] && (str[i] < 9 || str[i] > 13) && str[i] != 32
 		&& i < end_quote && str[i] != '\'' && str[i] != '$')
 		pre_env[j++] = str[i++];
 	env_value = ft_getenv(pre_env, all->env_list);

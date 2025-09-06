@@ -20,7 +20,8 @@ void	free_env_var(void *env_var_ptr)
 		return ;
 	var = (t_env_var *)env_var_ptr;
 	free(var->key);
-	free(var->value);
+	if (var->value)
+		free(var->value);
 	free(var);
 }
 

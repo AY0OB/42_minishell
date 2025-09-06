@@ -6,13 +6,13 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 19:20:33 by amairia           #+#    #+#             */
-/*   Updated: 2025/09/03 16:32:49 by amairia          ###   ########.fr       */
+/*   Updated: 2025/09/04 19:52:30 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	set_cmd(t_all *all, char ***cmd, char **cmd_path, char **envp)
+int	set_cmd(t_all *all, char ***cmd, char **cmd_path)
 {
 	cmd[0] = feed_cmd(all);
 	if (!cmd[0])
@@ -26,7 +26,7 @@ int	set_cmd(t_all *all, char ***cmd, char **cmd_path, char **envp)
 		free(cmd[0]);
 		return (-1);
 	}
-	cmd_path[0] = get_command_path(cmd[0][0], envp);
+	cmd_path[0] = get_command_path(cmd[0][0], all->env_list);
 	if (!cmd_path[0])
 	{
 		ft_printf("minishell: command not found: %s\n", cmd[0][0]);
@@ -53,7 +53,7 @@ void	set_exitcode(t_all *all, pid_t pid)
 		all->last_exit_status = 1;
 }
 
-void	exec(t_all *all, char **envp)
+void	exec(t_all *all)
 {
 	pid_t	pid;
 	char	**cmd;
@@ -61,7 +61,7 @@ void	exec(t_all *all, char **envp)
 
 	cmd = NULL;
 	cmd_path = NULL;
-	if (set_cmd(all, &cmd, &cmd_path, envp) == -1)
+	if (set_cmd(all, &cmd, &cmd_path) == -1)
 	{
 		clear_fd(all);
 		return ;
@@ -75,14 +75,14 @@ void	exec(t_all *all, char **envp)
 			close(all->data.std_in);
 		if (all->data.std_out != 1)
 			close(all->data.std_out);
-		execve(cmd_path, cmd, envp);
+		ft_execve(all, &cmd_path, &cmd);
 	}
 	free(cmd);
 	free(cmd_path);
 	set_exitcode(all, pid);
 }
 
-void	dup_redir(t_all *all, char **envp)
+void	dup_redir(t_all *all)
 {
 	all->data.og_in = dup(STDIN_FILENO);
 	all->data.og_out = dup(STDOUT_FILENO);
@@ -90,7 +90,7 @@ void	dup_redir(t_all *all, char **envp)
 		dup2(all->data.std_in, STDIN_FILENO);
 	if (all->data.std_out != 1)
 		dup2(all->data.std_out, STDOUT_FILENO);
-	exec(all, envp);
+	exec(all);
 	all->faile_open = false;
 	dup2(all->data.og_in, STDIN_FILENO);
 	dup2(all->data.og_out, STDOUT_FILENO);
@@ -99,7 +99,7 @@ void	dup_redir(t_all *all, char **envp)
 	clear_fd(all);
 }
 
-void	set_redirections(t_pars *lst, t_all *all, char **envp)
+void	set_redirections(t_pars *lst, t_all *all)
 {
 	while (lst)
 	{
@@ -120,5 +120,5 @@ void	set_redirections(t_pars *lst, t_all *all, char **envp)
 		all->faile_open = false;
 		return ;
 	}
-	dup_redir(all, envp);
+	dup_redir(all);
 }

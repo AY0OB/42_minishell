@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 01:12:24 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/23 14:45:08 by amairia          ###   ########.fr       */
+/*   Updated: 2025/09/04 20:23:39 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,27 @@ static char	*build_path(char *dir_path, char *cmd)
 	return (full_path);
 }
 
-static char	*find_in_paths(char *cmd, char **envp, int i)
+static bool	verif_free_paths(char *path_value, char **paths_array)
+{
+	if (!paths_array)
+	{
+		free(path_value);
+		return (false);
+	}
+	return (true);
+}
+
+static char	*find_in_paths(char *cmd, int i, t_list *env_list)
 {
 	char	**paths_array;
 	char	*path_value;
 	char	*full_path;
 
-	(void)envp;
-	path_value = getenv("PATH");
+	path_value = ft_getenv("PATH", env_list);
 	if (!path_value)
 		return (NULL);
 	paths_array = ft_split(path_value, ':');
-	if (!paths_array)
+	if (!verif_free_paths(path_value, paths_array))
 		return (NULL);
 	while (paths_array[i])
 	{
@@ -59,16 +68,18 @@ static char	*find_in_paths(char *cmd, char **envp, int i)
 		if (full_path && access(full_path, X_OK) == 0)
 		{
 			free_paths_array(paths_array);
+			free(path_value);
 			return (full_path);
 		}
 		free(full_path);
 		i++;
 	}
 	free_paths_array(paths_array);
+	free(path_value);
 	return (NULL);
 }
 
-char	*get_command_path(char *cmd, char **envp)
+char	*get_command_path(char *cmd, t_list *env_list)
 {
 	if (!cmd || !cmd[0])
 		return (NULL);
@@ -79,5 +90,5 @@ char	*get_command_path(char *cmd, char **envp)
 		else
 			return (NULL);
 	}
-	return (find_in_paths(cmd, envp, 0));
+	return (find_in_paths(cmd, 0, env_list));
 }
