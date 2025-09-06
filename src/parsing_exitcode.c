@@ -59,7 +59,7 @@ static int	verif_in_quote(t_pars *lst, int i)
 		if (i >= lst->tab[j] && i < lst->tab[j + 1])
 			return (-1);
 		if (i > lst->tab[j + 1])
-			return (-1);
+			return (1);
 		j += 2;
 	}
 	return (1);

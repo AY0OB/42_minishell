@@ -6,7 +6,7 @@
 /*   By: rolavale <rolavale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 03:57:51 by amairia           #+#    #+#             */
-/*   Updated: 2025/09/05 16:56:24 by amairia          ###   ########.fr       */
+/*   Updated: 2025/09/06 16:03:28 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ typedef struct s_envbis
 }				t_envbis;
 
 //------------------------
+
+int			do_prog(char *line, t_all **all);
 
 t_pars		*pars_lstnew(char *content, bool hdq);
 int			pars_lstadd_back(t_pars **lst, t_pars *new);

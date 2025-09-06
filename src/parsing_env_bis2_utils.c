@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 16:18:43 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/10 18:19:27 by amairia          ###   ########.fr       */
+/*   Updated: 2025/09/06 16:14:41 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ static void	set_new_lst_bis(t_pars **lst, t_pars **lst_env,
 		(*lst_env)->next = (*new);
 		(*new)->prev = (*lst_env);
 		(*new)->next = (*tmp_next);
-		(*new)->tab = ft_calloc(sizeof(int), ft_strlen((*new)->content) * 2 + 2);
-		(*new)->dtab = ft_calloc(sizeof(int), ft_strlen((*new)->content) * 2 + 2);
+		(*new)->tab = ft_calloc(sizeof(int),
+				ft_strlen((*new)->content) * 2 + 2);
+		(*new)->dtab = ft_calloc(sizeof(int),
+				ft_strlen((*new)->content) * 2 + 2);
 		if (*tmp_next)
 			(*tmp_next)->prev = (*new);
 	}

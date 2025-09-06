@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_bis.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: rolavale <rolavale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 03:54:04 by amairia           #+#    #+#             */
-/*   Updated: 2025/07/29 19:18:34 by amairia          ###   ########.fr       */
+/*   Updated: 2025/09/06 16:44:09 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,34 @@ void	env_list_to_array_bis(t_env_var *var,
 	free(*tmp);
 }
 
+static bool	ft_check_env_name(const char *str, t_all *all)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != '=')
+	{
+		if (ft_isalnum(str[i]) == 0 && str[i] != '_')
+		{
+			all->last_exit_status = 1;
+			return (true);
+		}
+		i++;
+	}
+	all->last_exit_status = 0;
+	return (false);
+}
+
 t_env_var	*split_env_var(const char *arg, t_all *all)
 {
 	t_env_var	*var;
 	char		*equal_sign;
 
-	if (arg[0] == '=')
+	if (arg[0] == '=' || ft_check_env_name(arg, all) == true)
 	{
-		dup2(all->data.og_out, STDOUT_FILENO);
-		ft_printf("minishell: export: `%s': not a valid identifier\n", arg);
-		dup2(all->data.std_out, STDOUT_FILENO);
+		ft_putstr_fd("minishell:export: `", 2);
+		ft_putstr_fd((char *)arg, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
 		return (NULL);
 	}
 	var = ft_calloc(1, sizeof(t_env_var));

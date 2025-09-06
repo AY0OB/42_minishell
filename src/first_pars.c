@@ -69,7 +69,6 @@ static int	set_pars(char *line, int *i, int *prev_is_token)
 	if (*prev_is_token == 5)
 	{
 		error_msg(5);
-		free(line);
 		return (-1);
 	}
 	skip_token(line, i, *prev_is_token);
@@ -80,7 +79,6 @@ static int	set_pars(char *line, int *i, int *prev_is_token)
 	if (!line[tmp] && *prev_is_token != -1)
 	{
 		error_msg(6);
-		free(line);
 		return (-1);
 	}
 	return (0);

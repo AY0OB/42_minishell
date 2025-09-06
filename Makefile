@@ -9,6 +9,7 @@ LIBFT_DIR = libft/
 LIBFT_A = $(LIBFT_DIR)libft.a
 
 SRCS = 	src/main.c \
+		src/do_prog.c \
 		src/setter.c \
 		src/clear_all.c \
 		src/first_pars.c \

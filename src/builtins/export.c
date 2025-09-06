@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: rolavale <rolavale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 23:40:33 by amairia           #+#    #+#             */
-/*   Updated: 2025/08/21 21:31:46 by amairia          ###   ########.fr       */
+/*   Updated: 2025/09/06 15:16:45 by rolavale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	sort_env_array(char **array, int size)
 	}
 }
 
-static int	display_sorted_env(t_list *env_list)
+static int	display_sorted_env(t_list *env_list, t_all *all)
 {
 	char	**array;
 	int		size;
@@ -77,7 +77,8 @@ static int	display_sorted_env(t_list *env_list)
 	sort_env_array(array, size);
 	print_sorted_env(array);
 	free_argv(array);
-	return (0);
+	all->last_exit_status = 0;
+	return (all->last_exit_status);
 }
 
 static int	export_bis(t_env_var *new_var, int *i)
@@ -97,7 +98,7 @@ int	builtin_export(char **argv, t_list **env_list_ptr, t_all *all)
 	int			i;
 
 	if (!argv[1])
-		return (display_sorted_env(*env_list_ptr));
+		return (display_sorted_env(*env_list_ptr, all));
 	i = 1;
 	while (argv[i])
 	{
@@ -116,5 +117,5 @@ int	builtin_export(char **argv, t_list **env_list_ptr, t_all *all)
 			ft_lstadd_back(env_list_ptr, ft_lstnew(new_var));
 		i++;
 	}
-	return (0);
+	return (all->last_exit_status);
 }

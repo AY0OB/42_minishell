@@ -6,7 +6,7 @@
 /*   By: amairia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 20:13:54 by amairia           #+#    #+#             */
-/*   Updated: 2025/09/05 16:41:37 by amairia          ###   ########.fr       */
+/*   Updated: 2025/09/06 16:13:30 by amairia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ static void	add_key_value(t_env_var *var, char **envp, int i)
 	tmp = ft_calloc(sizeof(char), 1);
 	if (!tmp)
 		return ;
-	tmp_key = NULL;
-	tmp_value = NULL;
 	tmp_key = ft_strjoin(tmp, var->key);
 	if (!tmp_key)
 	{
@@ -69,7 +67,6 @@ static char	**get_env_list(t_list *env_list, int size_list)
 void	ft_execve(t_all *all, char **cmd_path, char ***cmd)
 {
 	char	**envp;
-	int		exitcode;
 	int		i;
 
 	envp = get_env_list(all->env_list, ft_lstsize(all->env_list));
@@ -83,7 +80,6 @@ void	ft_execve(t_all *all, char **cmd_path, char ***cmd)
 		free(envp);
 	free(cmd_path[0]);
 	free(cmd[0]);
-	exitcode = all->last_exit_status;
 	close(all->data.og_in);
 	close(all->data.og_out);
 	if (all->data.std_in != 0)
@@ -91,7 +87,7 @@ void	ft_execve(t_all *all, char **cmd_path, char ***cmd)
 	if (all->data.std_out != 1)
 		close(all->data.std_out);
 	clear_all(all, NULL);
-	exit(exitcode);
+	exit(126);
 }
 
 char	**feed_cmd(t_all *all)
